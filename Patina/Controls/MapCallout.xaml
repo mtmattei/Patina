@@ -9,7 +9,7 @@
   <mvux:FeedView Source="{Binding Selected}" IsTabStop="False" MaxWidth="380">
     <mvux:FeedView.ValueTemplate>
       <DataTemplate>
-        <utu:CardContentControl Style="{StaticResource ElevatedCardContentControlStyle}"
+        <utu:CardContentControl Style="{StaticResource StaticCardContentControlStyle}"
                                 HorizontalAlignment="Stretch"
                                 Content="{Binding}">
           <utu:CardContentControl.ContentTemplate>

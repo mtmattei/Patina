@@ -47,6 +47,8 @@
   <!-- The condition strip: the app's signature. Keyed base so size variants can be BasedOn it. -->
   <Style x:Key="DefaultConditionStripStyle" TargetType="controls:ConditionStrip">
     <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="NumberStyle" Value="{StaticResource MonoTextStyle}" />
+    <Setter Property="WordStyle" Value="{StaticResource LabelLarge}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="controls:ConditionStrip">
@@ -67,8 +69,8 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center"
                         Visibility="{Binding ShowLabel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource VisibleWhen}}">
-              <TextBlock x:Name="Number" Style="{StaticResource MonoTextStyle}" Foreground="{ThemeResource OnSurfaceBrush}" />
-              <TextBlock x:Name="Word" Style="{StaticResource LabelLarge}" Foreground="{ThemeResource OnSurfaceBrush}" />
+              <TextBlock x:Name="Number" Style="{TemplateBinding NumberStyle}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
+              <TextBlock x:Name="Word" Style="{TemplateBinding WordStyle}" Foreground="{ThemeResource OnSurfaceBrush}" VerticalAlignment="Center" />
             </StackPanel>
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="GradeStates">
@@ -112,6 +114,8 @@
   <Style x:Key="LargeConditionStripStyle" TargetType="controls:ConditionStrip" BasedOn="{StaticResource DefaultConditionStripStyle}">
     <Setter Property="PatchWidth" Value="22" />
     <Setter Property="PatchHeight" Value="30" />
+    <Setter Property="NumberStyle" Value="{StaticResource TitleLarge}" />
+    <Setter Property="WordStyle" Value="{StaticResource HeadlineSmall}" />
   </Style>
 
   <!-- The object label -->
@@ -144,6 +148,31 @@
                        Foreground="{ThemeResource OnSurfaceBrush}" />
             <TextBlock Text="{TemplateBinding Byline}" Style="{StaticResource MutedBodyTextStyle}" />
           </StackPanel>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!--
+    A card-shaped container that is not clickable. The Material card templates carry pointer-over and pressed
+    overlays meant for clickable cards (runtime gotchas: the overlay also sticks after a touch swipe), so static
+    containers use a plain template over the same lightweight keys.
+  -->
+  <Style x:Key="StaticCardContentControlStyle" TargetType="utu:CardContentControl" BasedOn="{StaticResource OutlinedCardContentControlStyle}">
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="utu:CardContentControl">
+          <!-- xaml-lint: allow card - the card control's own template, bound to its properties -->
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="Stretch" />
+          </Border>
         </ControlTemplate>
       </Setter.Value>
     </Setter>

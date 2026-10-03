@@ -150,7 +150,7 @@
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
 
-              <utu:CardContentControl Style="{StaticResource OutlinedCardContentControlStyle}" HorizontalAlignment="Stretch" Margin="0,8,0,0">
+              <utu:CardContentControl Style="{StaticResource StaticCardContentControlStyle}" HorizontalAlignment="Stretch" Margin="0,8,0,0">
                 <StackPanel Spacing="12" Padding="20">
                   <TextBlock x:Uid="Survey_AddFindingHeading" Text="Add a finding" Style="{StaticResource TitleMedium}" />
                   <StackPanel Spacing="4">

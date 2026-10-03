@@ -24,6 +24,12 @@ public sealed partial class ConditionStrip : Control
     public static readonly DependencyProperty PatchHeightProperty = DependencyProperty.Register(
         nameof(PatchHeight), typeof(double), typeof(ConditionStrip), new PropertyMetadata(14d));
 
+    public static readonly DependencyProperty NumberStyleProperty = DependencyProperty.Register(
+        nameof(NumberStyle), typeof(Style), typeof(ConditionStrip), new PropertyMetadata(null));
+
+    public static readonly DependencyProperty WordStyleProperty = DependencyProperty.Register(
+        nameof(WordStyle), typeof(Style), typeof(ConditionStrip), new PropertyMetadata(null));
+
     public ConditionStrip()
     {
         DefaultStyleKey = typeof(ConditionStrip);
@@ -40,6 +46,20 @@ public sealed partial class ConditionStrip : Control
     {
         get => (bool)GetValue(ShowLabelProperty);
         set => SetValue(ShowLabelProperty, value);
+    }
+
+    /// <summary>Type style for the grade numeral; the large variant sets a bigger one.</summary>
+    public Style? NumberStyle
+    {
+        get => (Style?)GetValue(NumberStyleProperty);
+        set => SetValue(NumberStyleProperty, value);
+    }
+
+    /// <summary>Type style for the grade word.</summary>
+    public Style? WordStyle
+    {
+        get => (Style?)GetValue(WordStyleProperty);
+        set => SetValue(WordStyleProperty, value);
     }
 
     public double PatchWidth

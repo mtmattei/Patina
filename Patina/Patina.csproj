@@ -35,6 +35,10 @@
       SkiaRenderer;
     </UnoFeatures>
 
+    <!-- Launcher icon and splash: the Patina mark (Assets/Icons, Assets/Splash) on the limestone ground -->
+    <UnoSplashScreenColor>#EEF0EC</UnoSplashScreenColor>
+    <UnoIconForegroundScale>1</UnoIconForegroundScale>
+
     <!-- "Not implemented in Uno Platform" is an error, not a warning. -->
     <WarningsAsErrors>$(WarningsAsErrors);Uno0001</WarningsAsErrors>
   </PropertyGroup>
