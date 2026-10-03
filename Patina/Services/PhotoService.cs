@@ -58,8 +58,8 @@ public sealed class PhotoService(Window window) : IPhotoService
             return null;
         }
 
+        // PhotoSettings.Format is Uno0001 on Android; the platform camera returns a JPEG by default.
         var capture = new CameraCaptureUI();
-        capture.PhotoSettings.Format = CameraCaptureUIPhotoFormat.Jpeg;
         var file = await capture.CaptureFileAsync(CameraCaptureUIMode.Photo);
         return file is null ? null : await StoreAsync(file, ct);
     });
