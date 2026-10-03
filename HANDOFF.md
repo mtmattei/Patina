@@ -6,13 +6,13 @@ Assessed the Uno tooling and app portfolio (`docs/ANALYSIS.md`, `docs/assessment
 (`SPEC.md`, `docs/DECISIONS.md` D1–D15) and built Patina: a local-first, EN/FR field app for a municipal public-art
 conservation team (collection + map, artwork record, condition survey with photos, treatment queue, settings,
 export/import). Desktop, WebAssembly and Android are built, run and verified; Linux/macOS are published but not run;
-iOS is CI-only. Release artifacts are in `_publish/release/` (git-ignored). Repository has no remote yet.
+iOS is CI-only. Release artifacts are in `_publish/release/` (git-ignored). Pushed to https://github.com/mtmattei/Patina (private); CI green on all jobs incl. the first iOS simulator build (run 37131898208).
 
 ## Last verified state
 - Build: desktop, browserwasm, android Debug + Release: 0 warnings, 0 errors (Uno0001 as error). iOS not built.
 - Tests: 69/69 NUnit pass (`Patina.Core`).
 - Runtime: Windows desktop (all flows, 420/1024/1440 px, dark, French, published Release exe); WASM in headless Edge (load 7.5 s, draft survives reload, `/Patina/` subpath); Android API 36 emulator (Debug: map, callout, survey, camera, Back; Release APK: launch, collection, map). App MCP not used (session not rooted in the repo); Win32 + Playwright harnesses in `tools/`.
-- Git: `main` @ 779264b plus nothing uncommitted except this file. Tag `backup/before-untrack-publish` keeps pre-rewrite history (publish output was committed by mistake, then filtered out of 4 unpushed commits).
+- Git: `main` pushed to origin (mtmattei/Patina, private). Tag `backup/before-untrack-publish` keeps pre-rewrite history (publish output was committed by mistake, then filtered out of 4 unpushed commits).
 - Lint: CARD 0 · HEX 0 · TOKENTHEME 0 · BACKBAR 0 · CODEBEHIND 0 · OVERLAY 0 · RESPONSIVE 0 · BUILTIN 0 · ICON 0 (3 WORKAROUND markers, documented).
 
 ## Guidance applied
@@ -31,11 +31,10 @@ iOS is CI-only. Release artifacts are in `_publish/release/` (git-ignored). Repo
 Read, not applied: Design Graph plugin, UnoAnnotation, Lapse, Atlas route diff (available, not run).
 
 ## Next actions (in order)
-1. Create the GitHub repo and push; confirm CI green on all six jobs (iOS job is the first iOS compile ever).
-2. Android: create the upload keystore and add the four `ANDROID_*` secrets; download the signed AAB from CI.
-3. Run the Linux zip once (any Linux box or `wsl --install`) and the macOS zip on a Mac; update `docs/DEPLOY.md` matrix.
-4. File the ResponsiveExtension reconnect bug on unoplatform/uno.toolkit.ui (evidence: `docs/evidence/2026-10-03-responsive-extension-unloaded.md`) and add it to `~/.claude/rules/uno-runtime-gotchas.md`.
-5. Run `atlas extract Patina/App.xaml.cs --source Patina --out app.json` and diff against the SPEC route tree.
+1. Android: create the upload keystore and add the four `ANDROID_*` secrets; download the signed AAB from CI.
+2. Run the Linux zip once (any Linux box or `wsl --install`) and the macOS zip on a Mac; update `docs/DEPLOY.md` matrix.
+3. File the ResponsiveExtension reconnect bug on unoplatform/uno.toolkit.ui (evidence: `docs/evidence/2026-10-03-responsive-extension-unloaded.md`) and add it to `~/.claude/rules/uno-runtime-gotchas.md`.
+4. Run `atlas extract Patina/App.xaml.cs --source Patina --out app.json` and diff against the SPEC route tree.
 
 ## Open questions
 - Sync/sign-in omitted (D3): does a real deployment need multi-device sync (DYT's Supabase pattern) before v1.1?
@@ -52,3 +51,5 @@ dotnet test Patina.Tests/Patina.Tests.csproj
 dotnet run --project Patina/Patina.csproj -f net10.0-desktop
 ```
 Start the next session rooted in `C:\Users\Platform006\Patina` so `.mcp.json` registers the uno-app MCP.
+
+CI note: iOS needs Xcode 26.3 paired with workload set 10.0.300 (`.github/workflows/ci.yml`); bump both together when the runner image changes.

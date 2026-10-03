@@ -5,7 +5,7 @@ push to `main` and uploads the artifacts; this page covers what each target need
 
 ## What was verified, and where
 
-Evidence is the session of 2026-10-03 on Windows 11 (Uno.Sdk 6.7.30, .NET SDK 10.0.303). "Built" means a clean
+CI (GitHub Actions, `mtmattei/Patina`) passed every job on 2026-10-03, run 37131898208. Evidence is the session of 2026-10-03 on Windows 11 (Uno.Sdk 6.7.30, .NET SDK 10.0.303). "Built" means a clean
 build; "Run" means launched and driven through the primary flows with screenshots.
 
 | Target | Built here | Run here | Flows exercised |
@@ -14,9 +14,9 @@ build; "Run" means launched and driven through the primary flows with screenshot
 | WebAssembly / PWA (`net10.0-browserwasm`) | yes (Release, trimmed) | yes, headless Edge | first frame in 7.5 s, no console errors, map tiles, survey draft persisted across a page reload (IndexedDB); also served under `/Patina/` with `WasmShellWebAppBasePath` (GitHub Pages layout) |
 | Android (`net10.0-android`, API 36 emulator) | yes (Debug and Release) | yes | Debug: collection, map with pins and callout, artwork, survey, camera capture into a draft, system Back. Release APK (trimmed): launch, collection, map |
 | Windows desktop, published Release (self-contained win-x64) | yes | yes | launch to collection in 10 s |
-| Linux desktop | publish only | **no** | WSL is not installed on the build machine |
-| macOS desktop | publish only | **no** | needs a Mac |
-| iOS (`net10.0-ios`) | **no** | **no** | needs a Mac with Xcode; CI builds it for the simulator |
+| Linux desktop | publish here + CI on ubuntu-latest | **no** | WSL is not installed on the build machine |
+| macOS desktop | publish here + CI on macos-latest | **no** | needs a Mac |
+| iOS (`net10.0-ios`) | in CI only (simulator, Release, Xcode 26.3 + workload set 10.0.300) | **no** | compiles; never launched (needs a Mac or a device) |
 
 ## Desktop (Windows, macOS, Linux)
 
