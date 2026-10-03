@@ -51,3 +51,28 @@ Format: Decision / Reason / Tradeoff. Newest at the bottom. Started 2026-10-03.
 - **Decision:** `docs/DESIGN.md` is the source. `Styles/ColorPaletteOverride.xaml`, `Typography.xaml`, `Tokens.xaml` are generated and never hand-edited.
 - **Reason:** One owner per layer. The generator also checks contrast (24/24 pairs pass 4.5:1 on first run).
 - **Tradeoff:** Regenerating requires the private DesignMd2Uno repo.
+
+## D11. Breakpoints on cached pages use AdaptiveTrigger (workaround)
+- **Decision:** `MainPage`, `CollectionPage`, `SettingsPage` use `AdaptiveTrigger` states; everything else keeps `{utu:Responsive}`.
+- **Reason:** Toolkit 9.1 `ResponsiveExtension` never reconnects after its host unloads (source-read; `KNOWN-ISSUES.md`). These pages are cached and unload when a detail page opens.
+- **Tradeoff:** two breakpoint mechanisms in one app, each workaround marked and greppable. Revert when the Toolkit fixes reconnect.
+
+## D12. Display strings from ResourceLoader
+- **Decision:** converters and models read `.resw` through `ResourceLoader` (`Services/Text.cs`), the same files as `x:Uid`.
+- **Reason:** navigation constructs models before the host's `IStringLocalizer` is reachable from static code; the first attempt rendered raw keys.
+- **Tradeoff:** a static helper instead of injected localization in converters.
+
+## D13. Index-based selection for ComboBox and RadioButtons
+- **Decision:** survey weather, finding type and severity bind `SelectedIndex` to `int` fields of the form records.
+- **Reason:** record `SelectedItem` values did not round-trip through the MVUX bindable proxy (empty selection at runtime).
+- **Tradeoff:** the model maps indexes back to options.
+
+## D14. Portable entrance animation
+- **Decision:** page entrances are a Storyboard (opacity + `TranslateTransform`, EaseSmooth spline, 280 ms).
+- **Reason:** `ElementCompositionPreview.SetIsTranslationEnabled` is Uno0001 on WebAssembly; the Uno0001-as-error policy caught it.
+- **Tradeoff:** UI-thread animation instead of Composition; two properties on one element per page, measured smooth.
+
+## D15. Export format is a zip
+- **Decision:** `.patina` = zip of `collection.json` (versioned envelope) + `photos/`.
+- **Reason:** a collection moved without its photos loses its documentation.
+- **Tradeoff:** larger files; import extracts only photos the document references.

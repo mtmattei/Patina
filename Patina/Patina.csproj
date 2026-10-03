@@ -1,6 +1,12 @@
 <Project Sdk="Uno.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
+    <!--
+      App-only override for single-head builds, e.g. -p:PatinaTargetFrameworks=net10.0-desktop for a RID-specific
+      desktop publish. A global -p:TargetFrameworks would also retarget Patina.Core, and restoring every head with a
+      desktop RID pulls Mono runtime packs for the mobile/web heads that may not match the installed workloads.
+    -->
+    <TargetFrameworks Condition="'$(PatinaTargetFrameworks)' != ''">$(PatinaTargetFrameworks)</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>

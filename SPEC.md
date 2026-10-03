@@ -15,7 +15,7 @@ become proposed treatments → queue → schedule → in progress → done (with
 - **Targets:** `net10.0-desktop` (Windows/macOS/Linux, Skia), `net10.0-browserwasm` (PWA), `net10.0-android`, `net10.0-ios`. Uno.Sdk **6.7.30** pinned in `global.json`.
 - **UnoFeatures:** `Material; Toolkit; Hosting; Navigation; MVUX; Localization; Logging; Configuration; ThemeService; SkiaRenderer; Skia`.
 - **Pattern:** MVUX. Decision: MVUX for every page. Reason: async store-backed feeds, built-in Progress/None/Error states, generated commands (`uno-scaffolding.md`). Tradeoff: `{Binding}` only against generated view models; editable fields bind top-level states, never `Data.X` TwoWay inside a FeedView (runtime gotcha).
-- **Projects:** `Patina.Core` (net10.0: records, rules, queries, `PatinaStore`, JSON source-gen context), `Patina` (Uno app), `Patina.Tests` (MSTest over Core).
+- **Projects:** `Patina.Core` (net10.0: records, rules, queries, `PatinaStore`, JSON source-gen context), `Patina` (Uno app), `Patina.Tests` (NUnit over Core, template default).
 - **Shell:** `Shell.xaml` hosts `ExtendedSplashScreen` only. `MainPage` owns `Region.Attached` root, a Visibility region (route-based, empty), a vertical rail `utu:TabBar` (≥ Wide) and a bottom `utu:TabBar` (< Wide), sharing `Region.Name`s.
 - **Routes:** see Route tree. Detail pages are siblings of `Main` under the shell (Chefs pattern) and stack on the shell's frame.
 - **DI (`IHostBuilder`):** `IDocumentFile` → `LocalFolderDocumentFile` (singleton), `PatinaStore` (singleton), `IPhotoService` → `PhotoService` (singleton, needs `Window`), `IDataTransfer` → `DataTransferService` (export/import pickers), `IAppSettings` → `AppSettings` (`ApplicationData.LocalSettings`), `IClock` → `SystemClock`, `IThemeService`, `ILocalizationService`.
@@ -28,7 +28,7 @@ become proposed treatments → queue → schedule → in progress → done (with
   - Submit proposes one treatment per finding with severity ≥ 3 (severity 4 → Urgent priority, 3 → High).
   - Treatment transitions: Proposed → Scheduled (requires date) → InProgress → Done (requires completion note). Back-steps allowed to the previous status; Done is final.
 - **Platform constraints:** Camera capture Android/iOS only (`CameraCaptureUI`); picker everywhere. Map: Mapsui 5.1 (desktop + Android validated; WASM, iOS unverified). File pickers on WASM use the File System Access API where present, else download/upload pickers.
-- **Testing:** MSTest on Core (rules, transitions, queries, store round-trip, corrupt-file recovery, import/export). Runtime verification per head with `uno-verify` (App MCP when the session runs in the repo; launch-and-capture otherwise). Lint: `xaml-semantic-lint.ps1` clean before each commit. Atlas route extraction diffed against the Route tree.
+- **Testing:** NUnit on Core (rules, transitions, queries, store round-trip, corrupt-file recovery, import/export). Runtime verification per head with `uno-verify` (App MCP when the session runs in the repo; launch-and-capture otherwise). Lint: `xaml-semantic-lint.ps1` clean before each commit. Atlas route extraction diffed against the Route tree.
 
 ### Capability inventory
 
@@ -51,7 +51,7 @@ become proposed treatments → queue → schedule → in progress → done (with
 - **Signature: the condition strip.** Four patches in a row, like the color-calibration strip conservators photograph beside an object. Filled count = grade (1–4), each patch carries its grade color, and the grade numeral + word sit beside it. Used on collection rows, the artwork header, the live survey grade and the queue. One signature, nothing else decorative.
 - **Second identity device: the tombstone label.** Accession (mono), title (display), artist · year, material · district. It heads the artwork and survey pages.
 - **Tokens (generated, `Styles/`):** Material roles (`ColorPaletteOverride.xaml`, Light + Dark), type ramp (`Typography.xaml`, Display 56/60 Condensed SemiBold → Label 12/16), spacing 4/8/12/16/24/32/48 and radius 6/12/24/999 (`Tokens.xaml`).
-- **Custom tokens (rung 4, `Styles/Condition.xaml`):** `Grade1Brush`…`Grade4Brush` (`#3F7F5F`, `#A88B2C`, `#B5652A`, `#B3261E`), `GradeEmptyBrush` mapped to `OutlineVariantBrush`. Reason: Material has no ordinal status ramp. Theme-invariant fills: patches never carry text, and the numeral beside them uses `OnSurfaceBrush`.
+- **Custom tokens (rung 4, `Styles/Condition.xaml`):** `Grade1InvariantBrush`…`Grade4InvariantBrush` (`#3E8762`, `#9C7C22`, `#C0632A`, `#D04436`; each ≥ 3:1 against light and dark Surface/Background), empty patches use `OutlineVariantBrush`. Reason: Material has no ordinal status ramp. Theme-invariant fills: patches never carry text, and the numeral beside them uses `OnSurfaceBrush`.
 - **Motion (`Styles/Motion.xaml`, house values):** `EaseSmooth` `0.22,1 0.36,1`, `DurationFast` 150 ms, `DurationNormal` 200 ms, `DurationSlow` 280 ms, entrance rise 6 px, press scale 0.98.
 - **Scopes:** everything app-wide in `App.xaml`; no page-scoped dictionaries in v1.
 - **Styles:** `CardContentControl` Filled/Outlined via lightweight keys (`CardCornerRadius` 12); `ConditionStrip` control template (`Controls/ConditionStrip.xaml`); `TombstoneLabel` templated control.
@@ -70,9 +70,9 @@ become proposed treatments → queue → schedule → in progress → done (with
   4. Settings → Export → save file; Import → pick file → confirm replace dialog → data replaced.
 - **Input:** every action reachable by keyboard; Enter in search applies; Esc leaves a detail page (NavigationBar back). Touch targets ≥ 44 px. Map: pan/zoom by pointer and touch; pins select the artwork (list scrolls and highlights it).
 - **FeedView states:** Collection list, Artwork dossier, Queue list, Treatment detail: Progress (skeleton rows), None (invitation copy), Error (message + Retry bound by `ElementName`). Survey edits are states, not feeds.
-- **Dialogs:** import confirmation and reset confirmation as `ContentDialog` via `!` routes (`ConfirmReplace`), discard-draft confirmation on Survey back.
+- **Dialogs:** import, reset and discard-draft confirmations use `INavigator.ShowMessageDialogAsync` with `DialogAction` callbacks (the awaited result is unreliable; runtime gotchas). Survey Back autosaves a draft instead of asking.
 - **Visual states:** cards and rows: Normal / PointerOver / Pressed (0.98) / Focused; severity selector: segmented with Selected state.
-- **Animations:** page content entrance (opacity 0→1 + 6 px rise, 280 ms EaseSmooth), condition strip patch fill (150 ms per patch, staggered 40 ms); reduced motion → final state, no stagger.
+- **Animations:** page content entrance (opacity 0→1 + 6 px rise, 280 ms EaseSmooth, Storyboard); condition strip switches state without animation. Reduced motion (system setting, plus an in-app toggle because Skia desktop reports animations always on) → no entrance.
 - **Accessibility:** `AutomationProperties.Name` on every icon button and the condition strip ("Condition 3 of 4, Poor"); focus order follows reading order; contrast checked by DesignMd2Uno (24/24 ≥ 4.5:1).
 - **Verification (uno-verify):** launch desktop; snapshot each page; exercise flow 1 and 2 end to end; resize across 600/800/1080; light and dark; FR culture; WASM publish served locally; Android emulator install and flow 1.
 
@@ -86,7 +86,7 @@ Shell  ViewMap<ShellPage... ShellModel>   (ExtendedSplashScreen; no Region.Attac
 │  ├─ Queue       ViewMap<QueuePage, QueueModel>
 │  │  └─ TreatmentList → Treatment (data: TreatmentSummary)
 │  └─ Settings    ViewMap<SettingsPage, SettingsModel>
-│     └─ ConfirmReplace !  dialog · ConfirmDialog (MessageDialog route)
+├─ Map         ViewMap<MapPage, MapModel>   (narrow windows; wide windows show the map beside the list)
 ├─ Artwork     DataViewMap<ArtworkPage, ArtworkModel, ArtworkSummary>
 │  ├─ StartSurvey  → Survey (data: SurveyStart)          [model command, INavigator]
 │  └─ OpenTreatment → Treatment (data: TreatmentSummary)
@@ -182,6 +182,10 @@ App.xaml @App
 - API: showing photo files from `LocalFolder` in `Image` on every head (`ms-appdata:///local/` vs stream `SetSourceAsync`) — spike 10 min in step 6.
 - API: font manifests on WASM/Android — verify in step 10.
 - API: `ILocalizationService` culture switch (applies on restart) — verify in step 8.
+
+## Build outcome (2026-10-03)
+
+Built as specified with the deviations recorded in `docs/DECISIONS.md` D11–D15 and `docs/KNOWN-ISSUES.md`. Verification per head: `docs/DEPLOY.md`.
 
 ## Unresolved Questions
 

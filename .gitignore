@@ -495,3 +495,6 @@ _design-out/
 
 # verification captures
 _shots/
+
+# local publish output and release artifacts
+_publish/

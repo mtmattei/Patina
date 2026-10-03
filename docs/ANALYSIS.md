@@ -51,21 +51,50 @@ before it. That is the whole design: one source of truth per layer, and a checke
 - The App MCP is per-project (`.mcp.json` beside the `.sln`), so a session started elsewhere has no runtime
   verification. Fallback: launch-and-capture (`reference-win32-input-injection`).
 
+## Project compatibility assessment
+
+Full per-project notes: `assessment/local-apps.md`, `assessment/github-apps.md`, `assessment/tooling.md`.
+
+**Can be the base of a deployable app:** DYT (Dorval Youngtimers: MVUX, region shell, Supabase with embedded
+fallback, 283 tests, three heads) and QuoteCraft (offline-first CRUD with SQLite). Both are domain-locked; extending
+either means finishing that product, not building a new one.
+
+**Work together (share infrastructure, not screens):**
+- Storage and states: FieldCheck's attachment copy-into-app-storage, ZooQuest's versioned JSON store, DYT's
+  StatePanel/skeleton controls. Patina adopted the attachment and store patterns.
+- Maps: ChefsNobu's Mapsui setup and MorningCard's `MutedTileSource`. Patina reuses both.
+- Motion: Loadpath/MotionTokens/`xaml-design-polish` describe the same layer; pick one table per app.
+- Tooling chain: DesignMd2Uno → app theme; Atlas → route checks; Design Graph → drift checks; Lapse → history.
+
+**Should stay separate:** demos and labs (Cargo, Loadpath, Lapse, ZoomLog, FlowType, PacConsole, MorningCard,
+Hyperspeed, ConfPass, Meridian, Mapplate, Orbital, DeskCompanion), benchmarks (ChefsNobu, FieldCheck), shelved or
+archived work (Plinth, SchoolDropoff, Lumen brief), and the Uno-Builds monorepo. Merging their features into one app
+would produce a catalogue, not a product.
+
+**Overlap to resolve across the portfolio:** three skill copies (installed skills, `claude-uno-plugins`,
+`UnoPlatformSkills`), several apps duplicated inside Uno-Builds, Uno.Sdk spread from 6.4.26 to 6.7.30, and no
+Uno-specific CI anywhere before Patina's workflow.
+
+## Direction chosen
+
+A new app (Patina) that reuses proven pieces rather than extending a domain-locked one: no existing app is a
+public-art conservation tool, the closest (FieldCheck) is a single-attachment benchmark and the closest domain
+(Plinth) has no screens. See `DECISIONS.md` D1.
+
 ## What Patina uses, and why
 
 | Tool | Used | How |
 |---|---|---|
 | concept memory | yes | credible industry app, specific team and workflow |
-| UnoComposer | substituted | its six decisions are recorded in `DECISIONS.md`; the app is not run to save a round trip |
-| `xaml-art-direction` | yes | direction and tokens in SPEC.md Design Brief |
-| DesignMd2Uno | substituted | not published as a tool; `DESIGN.md` is written in its format and the palette is hand-emitted to the same file layout |
-| MotionTokens | substituted | library is private and unpackaged; motion resources follow its naming in `Styles/Motion.xaml` |
+| UnoComposer | substituted | its six decisions are recorded in `DECISIONS.md` instead of running the prototype app |
+| `xaml-art-direction` | yes | direction, signature (condition strip), tokens in SPEC.md Design Brief |
+| DesignMd2Uno | **yes** | `docs/DESIGN.md` → `Styles/ColorPaletteOverride.xaml`, `Typography.xaml`, `Tokens.xaml` (24/24 contrast pairs pass) |
+| MotionTokens | substituted | values conflict with `xaml-design-polish`; house values in `Styles/Motion.xaml` (D9) |
 | `uno-write-spec` | yes | `SPEC.md` |
-| Design Graph plugin | deferred | not installed locally; the spec's design tree stands in |
-| `uno-scaffolding` + rules | yes | scaffold and conventions |
-| `mvux`, `uno-navigation`, `uno-toolkit`, `uno-material`, `uno-extensions-services` | yes | build |
-| semantic lint | yes | PostToolUse hook plus a full run before each commit |
-| `uno-component-states` | yes | every FeedView |
-| `uno-verify` | yes, fallback mode | no App MCP in the coordinating session; launch-and-capture |
-| Atlas, UnoAnnotation, Lapse | not used | need their own local builds; listed in Unresolved Questions |
-| `uno-wasm-pwa` | yes | WebAssembly head ships as a PWA |
+| Design Graph plugin | deferred | not installed; the spec's text design tree stands in |
+| `uno-scaffolding` + rules | yes | scaffold, Uno0001 gate (caught two unimplemented APIs), font naming, IDBFS |
+| `mvux`, `uno-navigation`, `uno-toolkit`, `uno-material`, `uno-extensions-services`, `uno-wasm-pwa` | yes | build |
+| semantic lint | yes | PostToolUse hook on every XAML edit; deliberate exceptions carry `xaml-lint: allow` |
+| `uno-verify` | fallback mode | no App MCP in this session; Win32 capture/drive scripts (`tools/`) and Playwright for WASM |
+| Atlas | available | `atlas extract` can diff `RegisterRoutes` against the spec route tree (not run) |
+| UnoAnnotation, Lapse | not used | need local builds; listed in Unresolved Questions |

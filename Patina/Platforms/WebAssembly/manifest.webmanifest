@@ -1,10 +1,10 @@
 {
-  "background_color": "#ffffff",
-  "description": "Patina",
+  "background_color": "#EEF0EC",
+  "description": "Condition surveys, findings and treatment queue for a city's public art collection.",
   "display": "standalone",
   "name": "Patina",
   "short_name": "Patina",
-  "start_url": "/index.html",
-  "theme_color": "#ffffff",
-  "scope": "/"
+  "start_url": "./",
+  "theme_color": "#2F6F62",
+  "scope": "./"
 }
