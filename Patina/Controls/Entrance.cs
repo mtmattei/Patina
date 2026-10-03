@@ -1,18 +1,19 @@
-using System.Numerics;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Patina.Services;
 
 namespace Patina.Controls;
 
 /// <summary>
 /// <c>controls:Entrance.IsEnabled="True"</c> on a page's content: on Loaded it rises 6 px and fades in over 280 ms on
-/// the house EaseSmooth curve (xaml-design-polish). Composition runs it off the UI thread. Reduced motion: nothing moves.
+/// the house EaseSmooth curve (xaml-design-polish). Storyboard-based so it runs on every head:
+/// <c>ElementCompositionPreview.SetIsTranslationEnabled</c> is Uno0001 on WebAssembly. Reduced motion: nothing moves.
 /// </summary>
 public static class Entrance
 {
-    private const float Rise = 6f;
+    private const double Rise = 6;
     private static readonly TimeSpan Duration = TimeSpan.FromMilliseconds(280);
+    private static readonly KeySpline EaseSmooth = new() { ControlPoint1 = new(0.22, 1), ControlPoint2 = new(0.36, 1) };
 
     public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached(
         "IsEnabled", typeof(bool), typeof(Entrance), new PropertyMetadata(false, OnChanged));
@@ -29,31 +30,32 @@ public static class Entrance
         }
     }
 
-    private static void Play(UIElement element)
+    private static void Play(FrameworkElement element)
     {
         if (!Motion.Enabled)
         {
             return;
         }
 
-        var visual = ElementCompositionPreview.GetElementVisual(element);
-        var compositor = visual.Compositor;
-        var ease = compositor.CreateCubicBezierEasingFunction(new Vector2(0.22f, 1f), new Vector2(0.36f, 1f));
+        if (element.RenderTransform is not TranslateTransform translate)
+        {
+            translate = new TranslateTransform();
+            element.RenderTransform = translate;
+        }
 
-        // Translation needs enabling before it can be animated (measured on Uno Skia, xaml-design-polish rule 5).
-        ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+        var storyboard = new Storyboard();
+        storyboard.Children.Add(Animate(element, "Opacity", 0, 1));
+        storyboard.Children.Add(Animate(translate, "Y", Rise, 0));
+        storyboard.Begin();
+    }
 
-        var opacity = compositor.CreateScalarKeyFrameAnimation();
-        opacity.InsertKeyFrame(0f, 0f);
-        opacity.InsertKeyFrame(1f, 1f, ease);
-        opacity.Duration = Duration;
-
-        var rise = compositor.CreateVector3KeyFrameAnimation();
-        rise.InsertKeyFrame(0f, new Vector3(0, Rise, 0));
-        rise.InsertKeyFrame(1f, Vector3.Zero, ease);
-        rise.Duration = Duration;
-
-        visual.StartAnimation("Opacity", opacity);
-        visual.StartAnimation("Translation", rise);
+    private static DoubleAnimationUsingKeyFrames Animate(DependencyObject target, string property, double from, double to)
+    {
+        var animation = new DoubleAnimationUsingKeyFrames();
+        animation.KeyFrames.Add(new DiscreteDoubleKeyFrame { KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero), Value = from });
+        animation.KeyFrames.Add(new SplineDoubleKeyFrame { KeyTime = KeyTime.FromTimeSpan(Duration), Value = to, KeySpline = EaseSmooth });
+        Storyboard.SetTarget(animation, target);
+        Storyboard.SetTargetProperty(animation, property);
+        return animation;
     }
 }
