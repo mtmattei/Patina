@@ -160,28 +160,14 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.3xx'
-      - name: Install ios workload (pinned)
-        # Each .NET for iOS release requires one exact Xcode version. Pin the SDK band's workload set, then select the
-        # matching Xcode from the side-by-side installs on the hosted image (2026-10-03: workload 26.2 wants 26.3,
-        # the image default is 26.6).
-        run: dotnet workload install ios --version 10.0.300
-      - name: Select the Xcode the iOS workload requires
+      - name: Pin Xcode and the iOS workload together
+        # Each .NET for iOS release requires one exact Xcode. Workload set 10.0.300 ships iOS 26.2, which requires
+        # Xcode 26.3; the hosted image keeps it side by side with its 26.6 default. Bump both together.
         run: |
-          ls -d /Applications/Xcode*.app
-          want=$(ls ~/.dotnet/packs | grep -o 'Microsoft.iOS.Sdk.net10.0_[0-9.]*' | head -1 | sed 's/.*_//')
-          echo "iOS workload $want"
-          xcode=$(ls -d /Applications/Xcode_${want}*.app 2>/dev/null | sort -V | tail -1)
-          if [ -z "$xcode" ]; then
-            req=$(dotnet build ${{ env.PROJECT }} -f net10.0-ios -c Release -r iossimulator-arm64 -p:PatinaTargetFrameworks=net10.0-ios 2>&1 | grep -o 'requires Xcode [0-9.]*' | head -1 | awk '{print $3}')
-            xcode=$(ls -d /Applications/Xcode_${req}*.app 2>/dev/null | sort -V | tail -1)
-          fi
-          if [ -n "$xcode" ]; then sudo xcode-select -s "$xcode"; echo "SKIP_XCODE_CHECK=false" >> "$GITHUB_ENV"; else echo "SKIP_XCODE_CHECK=true" >> "$GITHUB_ENV"; fi
+          sudo xcode-select -s /Applications/Xcode_26.3.app
           xcodebuild -version
+          dotnet workload install ios --version 10.0.300
       - name: Build for the simulator (no signing)
         # Store builds need an Apple Developer account, a distribution certificate and a provisioning profile;
-        # see docs/DEPLOY.md. This job proves the iOS head compiles. The Xcode version check is relaxed only when the
-        # exact Xcode the workload wants is not on the image.
-        run: |
-          EXTRA=""
-          if [ "$SKIP_XCODE_CHECK" = "true" ]; then EXTRA="-p:ValidateXcodeVersion=false"; fi
-          dotnet build ${{ env.PROJECT }} -f net10.0-ios -c Release -r iossimulator-arm64 -p:PatinaTargetFrameworks=net10.0-ios $EXTRA
+        # see docs/DEPLOY.md. This job proves the iOS head compiles.
+        run: dotnet build ${{ env.PROJECT }} -f net10.0-ios -c Release -r iossimulator-arm64 -p:PatinaTargetFrameworks=net10.0-ios
