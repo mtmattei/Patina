@@ -1,0 +1,22 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    Rung 4 custom tokens: Material has no ordinal status ramp. These fill the condition strip's patches only.
+    Invariant by design: each value clears 3:1 non-text contrast on Surface and Background in both themes
+    (#F8F9F6, #EEF0EC, #1D1E1C, #151614; worst case 3.44:1). Patches never carry text; the grade numeral and
+    word beside them use OnSurfaceBrush. Grade is never color alone: patch count + numeral + word.
+  -->
+  <!-- xaml-lint: allow hex - palette token file for the condition ramp, contrast-checked in both themes -->
+  <Color x:Key="Grade1InvariantColor">#3E8762</Color>
+  <!-- xaml-lint: allow hex - palette token file -->
+  <Color x:Key="Grade2InvariantColor">#9C7C22</Color>
+  <!-- xaml-lint: allow hex - palette token file -->
+  <Color x:Key="Grade3InvariantColor">#C0632A</Color>
+  <!-- xaml-lint: allow hex - palette token file -->
+  <Color x:Key="Grade4InvariantColor">#D04436</Color>
+
+  <SolidColorBrush x:Key="Grade1InvariantBrush" Color="{StaticResource Grade1InvariantColor}" />
+  <SolidColorBrush x:Key="Grade2InvariantBrush" Color="{StaticResource Grade2InvariantColor}" />
+  <SolidColorBrush x:Key="Grade3InvariantBrush" Color="{StaticResource Grade3InvariantColor}" />
+  <SolidColorBrush x:Key="Grade4InvariantBrush" Color="{StaticResource Grade4InvariantColor}" />
+</ResourceDictionary>

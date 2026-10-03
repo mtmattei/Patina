@@ -1,101 +1,101 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Patina.Core;
+using Patina.Core.Queries;
+using Patina.Core.Storage;
+using Patina.Services;
 using Uno.Resizetizer;
 
 namespace Patina;
 
 public partial class App : Application
 {
-    /// <summary>
-    /// Initializes the singleton application object. This is the first line of authored code
-    /// executed, and as such is the logical equivalent of main() or WinMain().
-    /// </summary>
     public App()
     {
         this.InitializeComponent();
     }
 
     protected Window? MainWindow { get; private set; }
+
     protected IHost? Host { get; private set; }
 
     [SuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "Uno.Extensions APIs are used in a way that is safe for trimming in this template context.")]
-    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         var builder = this.CreateBuilder(args)
-            // Add navigation support for toolkit controls such as TabBar and NavigationView
             .UseToolkitNavigation()
-            .Configure(host => host
+            .Configure((host, window) => host
 #if DEBUG
-                // Switch to Development environment when running in DEBUG
                 .UseEnvironment(Environments.Development)
 #endif
-                .UseLogging(configure: (context, logBuilder) =>
-                {
-                    // Configure log levels for different categories of logging
-                    logBuilder
-                        .SetMinimumLevel(
-                            context.HostingEnvironment.IsDevelopment() ?
-                                LogLevel.Information :
-                                LogLevel.Warning)
-
-                        // Default filters for core Uno Platform namespaces
-                        .CoreLogLevel(LogLevel.Warning);
-
-                    // Uno Platform namespace filter groups
-                    // Uncomment individual methods to see more detailed logging
-                    //// Generic Xaml events
-                    //logBuilder.XamlLogLevel(LogLevel.Debug);
-                    //// Layout specific messages
-                    //logBuilder.XamlLayoutLogLevel(LogLevel.Debug);
-                    //// Storage messages
-                    //logBuilder.StorageLogLevel(LogLevel.Debug);
-                    //// Binding related messages
-                    //logBuilder.XamlBindingLogLevel(LogLevel.Debug);
-                    //// Binder memory references tracking
-                    //logBuilder.BinderMemoryReferenceLogLevel(LogLevel.Debug);
-                    //// DevServer and HotReload related
-                    //logBuilder.HotReloadCoreLogLevel(LogLevel.Information);
-                    //// Debug JS interop
-                    //logBuilder.WebAssemblyLogLevel(LogLevel.Debug);
-
-                }, enableUnoLogging: true)
                 .UseConfiguration(configure: configBuilder =>
                     configBuilder
                         .EmbeddedSource<App>()
-                        .Section<AppConfig>()
-                )
-                // Enable localization (see appsettings.json for supported languages)
+                        .Section<AppConfig>())
+                .UseLogging(configure: (context, logBuilder) =>
+                {
+                    logBuilder
+                        .SetMinimumLevel(context.HostingEnvironment.IsDevelopment() ? LogLevel.Information : LogLevel.Warning)
+                        .CoreLogLevel(LogLevel.Warning);
+                }, enableUnoLogging: true)
                 .UseLocalization()
                 .ConfigureServices((context, services) =>
                 {
-                    // TODO: Register your services
-                    //services.AddSingleton<IMyService, MyService>();
+                    services.TryAddSingleton<IClock, SystemClock>();
+                    services.TryAddSingleton<IDocumentFile, LocalFolderDocumentFile>();
+                    services.TryAddSingleton<PatinaStore>();
+                    services.TryAddSingleton<IAppSettings, AppSettings>();
+                    services.TryAddSingleton<IPhotoService>(_ => new PhotoService(window));
+                    services.TryAddSingleton<IDataTransferService>(sp => new DataTransferService(window, sp.GetRequiredService<IClock>()));
                 })
-                .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
-            );
+                .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes));
+
         MainWindow = builder.Window;
 
-        #if DEBUG
-        MainWindow.UseStudio();
+#if DEBUG
+        // Headless verification runs set APP_NO_HOTDESIGN=1: UseStudio() blocks window creation when no DevServer is reachable.
+        if (Environment.GetEnvironmentVariable("APP_NO_HOTDESIGN") != "1")
+        {
+            MainWindow.UseStudio();
+        }
 #endif
-                MainWindow.SetWindowIcon();
+        MainWindow.SetWindowIcon();
 
-        Host = await builder.NavigateAsync<Shell>();
+        Host = await builder.NavigateAsync<Shell>(initialNavigate: async (services, navigator) =>
+        {
+            Motion.ReduceMotion = services.GetRequiredService<IAppSettings>().ReduceMotion;
+            await navigator.NavigateViewModelAsync<MainModel>(this);
+        });
     }
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
         views.Register(
             new ViewMap(ViewModel: typeof(ShellModel)),
-            new ViewMap<MainPage, MainModel>()
-        );
+            new ViewMap<MainPage, MainModel>(),
+            new ViewMap<CollectionPage, CollectionModel>(),
+            new ViewMap<QueuePage, QueueModel>(),
+            new ViewMap<SettingsPage, SettingsModel>(),
+            new ViewMap<MapPage, MapModel>(),
+            new DataViewMap<ArtworkPage, ArtworkModel, ArtworkSummary>(),
+            new DataViewMap<SurveyPage, SurveyModel, SurveyStart>(),
+            new DataViewMap<TreatmentPage, TreatmentModel, TreatmentSummary>());
 
         routes.Register(
             new RouteMap("", View: views.FindByViewModel<ShellModel>(),
                 Nested:
                 [
-                    new ("Main", View: views.FindByViewModel<MainModel>(), IsDefault:true),
-                ]
-            )
-        );
+                    new("Main", View: views.FindByViewModel<MainModel>(), IsDefault: true,
+                        Nested:
+                        [
+                            new("Collection", View: views.FindByViewModel<CollectionModel>(), IsDefault: true),
+                            new("Queue", View: views.FindByViewModel<QueueModel>()),
+                            new("Settings", View: views.FindByViewModel<SettingsModel>()),
+                        ]),
+                    new("Map", View: views.FindByViewModel<MapModel>()),
+                    new("Artwork", View: views.FindByViewModel<ArtworkModel>()),
+                    new("Survey", View: views.FindByViewModel<SurveyModel>()),
+                    new("Treatment", View: views.FindByViewModel<TreatmentModel>()),
+                ]));
     }
 }

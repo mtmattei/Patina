@@ -175,6 +175,6 @@ public static class PatinaQueries
 
         var survey = t.SurveyId is { } sid ? doc.Surveys.FirstOrDefault(s => s.Id == sid) : null;
         var finding = survey?.Findings.FirstOrDefault(f => f.Id == t.FindingId);
-        return new TreatmentDetail(t, Summarize(doc, t, artwork, today), artwork, survey, finding);
+        return new TreatmentDetail(t, Summarize(doc, t, artwork, today), artwork, Summarize(doc, artwork, today), survey, finding);
     }
 }

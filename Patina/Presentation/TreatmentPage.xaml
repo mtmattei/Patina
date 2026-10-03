@@ -1,0 +1,170 @@
+<Page x:Class="Patina.Presentation.TreatmentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Patina.Controls"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <utu:NavigationBar x:Uid="Treatment_Title" Content="Treatment" utu:SafeArea.Insets="Top" />
+
+    <utu:SafeArea Grid.Row="1" Insets="Bottom,SoftInput" Mode="Padding">
+      <ScrollViewer>
+        <Grid>
+          <StackPanel MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" Spacing="28" Padding="24,20,24,40" controls:Entrance.IsEnabled="True">
+
+            <mvux:FeedView x:Name="DetailFeed" Source="{Binding Detail}" IsTabStop="False">
+              <mvux:FeedView.ValueTemplate>
+                <DataTemplate>
+                  <StackPanel Spacing="24">
+                    <StackPanel Spacing="6">
+                      <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="{Binding Data.Treatment.Priority, Converter={StaticResource EnumText}}" Style="{StaticResource EyebrowTextStyle}" />
+                        <StackPanel Orientation="Horizontal" Spacing="4"
+                                    Visibility="{Binding Data.Summary.IsLate, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}">
+                          <FontIcon Glyph="&#xE7BA;" FontSize="12" Foreground="{ThemeResource ErrorBrush}" />
+                          <TextBlock x:Uid="Queue_Late" Text="Late" Style="{StaticResource LabelMedium}" Foreground="{ThemeResource ErrorBrush}" />
+                        </StackPanel>
+                      </StackPanel>
+                      <TextBlock Text="{Binding Data.Treatment.Title}" Style="{StaticResource DisplaySmall}" TextWrapping="WrapWholeWords"
+                                 AutomationProperties.HeadingLevel="Level1" />
+                      <HyperlinkButton Command="{Binding Parent.OpenArtwork}" Padding="0" AutomationProperties.AutomationId="OpenArtwork">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <TextBlock Text="{Binding Data.Artwork.Title}" Style="{StaticResource TitleSmall}" />
+                          <TextBlock Text="{Binding Data.Artwork.Accession}" Style="{StaticResource AccessionTextStyle}" VerticalAlignment="Center" />
+                        </StackPanel>
+                      </HyperlinkButton>
+                    </StackPanel>
+
+                    <StackPanel Spacing="8"
+                                Visibility="{Binding Data.Finding, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}">
+                      <TextBlock x:Uid="Treatment_Origin" Text="From the survey of" Style="{StaticResource EyebrowTextStyle}" />
+                      <TextBlock Text="{Binding Data.Survey.Date, Converter={StaticResource DateText}}" Style="{StaticResource TitleSmall}" />
+                      <TextBlock Text="{Binding Data.Finding, Converter={StaticResource FindingText}}" Style="{StaticResource BodyLarge}" TextWrapping="WrapWholeWords" />
+                      <TextBlock Text="{Binding Data.Finding.Note}" Style="{StaticResource MutedBodyTextStyle}"
+                                 Visibility="{Binding Data.Finding.Note, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="8">
+                      <TextBlock x:Uid="Treatment_LogHeading" Text="Log" Style="{StaticResource SectionTitleTextStyle}" />
+                      <ItemsControl ItemsSource="{Binding Data.Treatment.Log}">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Grid ColumnSpacing="16" Padding="0,6">
+                              <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="112" />
+                                <ColumnDefinition Width="*" />
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Text="{Binding At, Converter={StaticResource DateText}}" Style="{StaticResource MonoTextStyle}"
+                                         Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                              <StackPanel Grid.Column="1" Spacing="2">
+                                <TextBlock Text="{Binding Converter={StaticResource LogText}}" Style="{StaticResource BodyMedium}" TextWrapping="WrapWholeWords" />
+                                <TextBlock Text="{Binding Author}" Style="{StaticResource LabelSmall}" Foreground="{ThemeResource OnSurfaceVariantBrush}" />
+                              </StackPanel>
+                            </Grid>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </StackPanel>
+                  </StackPanel>
+                </DataTemplate>
+              </mvux:FeedView.ValueTemplate>
+              <mvux:FeedView.ProgressTemplate>
+                <DataTemplate>
+                  <ContentControl ContentTemplate="{StaticResource ListProgressTemplate}" />
+                </DataTemplate>
+              </mvux:FeedView.ProgressTemplate>
+              <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                  <StackPanel Spacing="12">
+                    <TextBlock x:Uid="Treatment_GoneTitle" Text="This treatment is no longer in the queue" Style="{StaticResource TitleLarge}" />
+                    <TextBlock x:Uid="Treatment_GoneBody" Text="It may have been removed by an import. Go back to the queue." Style="{StaticResource MutedBodyTextStyle}" />
+                  </StackPanel>
+                </DataTemplate>
+              </mvux:FeedView.NoneTemplate>
+              <mvux:FeedView.ErrorTemplate>
+                <DataTemplate>
+                  <StackPanel Spacing="12">
+                    <TextBlock x:Uid="Treatment_ErrorTitle" Text="This treatment could not be opened" Style="{StaticResource TitleLarge}" />
+                    <TextBlock Text="{Binding Message}" Style="{StaticResource MutedBodyTextStyle}" />
+                    <Button x:Uid="Common_Retry" Content="Try again" Style="{StaticResource FilledButtonStyle}"
+                            Command="{Binding Refresh, ElementName=DetailFeed}" />
+                  </StackPanel>
+                </DataTemplate>
+              </mvux:FeedView.ErrorTemplate>
+            </mvux:FeedView>
+
+            <!-- Status stepper: done steps carry a check, the current step a filled numeral; never colour alone -->
+            <ItemsControl ItemsSource="{Binding Steps}" AutomationProperties.Name="Status">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="{utu:Responsive Narrowest=Vertical, Normal=Horizontal}" Spacing="20" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Grid Width="28" Height="28">
+                      <!-- xaml-lint: allow icon - step marker shape, the numeral and check glyph carry the meaning -->
+                      <Ellipse Fill="{ThemeResource PrimaryBrush}"
+                               Visibility="{Binding IsCurrent, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+                      <!-- xaml-lint: allow icon - step marker shape -->
+                      <Ellipse Stroke="{ThemeResource OutlineBrush}" StrokeThickness="1.5"
+                               Visibility="{Binding IsUpcoming, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+                      <!-- xaml-lint: allow icon - step marker shape -->
+                      <Ellipse Fill="{ThemeResource SecondaryContainerBrush}"
+                               Visibility="{Binding IsDone, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+                      <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="{ThemeResource OnSecondaryContainerBrush}"
+                                Visibility="{Binding IsDone, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+                      <TextBlock Text="{Binding Number}" Style="{StaticResource LabelLarge}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 Foreground="{ThemeResource OnPrimaryBrush}"
+                                 Visibility="{Binding IsCurrent, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+                      <TextBlock Text="{Binding Number}" Style="{StaticResource LabelLarge}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                                 Visibility="{Binding IsUpcoming, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+                    </Grid>
+                    <TextBlock Text="{Binding Label}" Style="{StaticResource TitleSmall}" VerticalAlignment="Center" />
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Spacing="12" Visibility="{Binding IsEditable, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}">
+              <CalendarDatePicker x:Uid="Treatment_Date" Header="Scheduled for"
+                                  Date="{Binding ScheduledFor, Mode=TwoWay}"
+                                  HorizontalAlignment="Stretch"
+                                  AutomationProperties.AutomationId="ScheduledFor" />
+              <TextBox x:Uid="Treatment_Assignee" Header="Assigned to" Text="{Binding Assignee, Mode=TwoWay}"
+                       AutomationProperties.AutomationId="Assignee" />
+              <TextBox x:Uid="Treatment_Note" Header="Add to the log"
+                       PlaceholderText="What was done, what was found. Required to mark the work done."
+                       Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       AcceptsReturn="True" TextWrapping="Wrap" MinHeight="88"
+                       AutomationProperties.AutomationId="TreatmentNote" />
+              <TextBlock Text="{Binding Message}" Style="{StaticResource BodyMedium}" TextWrapping="WrapWholeWords"
+                         AutomationProperties.LiveSetting="Assertive" AutomationProperties.AutomationId="TreatmentMessage"
+                         Visibility="{Binding Message, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+              <StackPanel Orientation="{utu:Responsive Narrowest=Vertical, Normal=Horizontal}" Spacing="12">
+                <Button Content="{Binding Status, Converter={StaticResource NextActionText}}"
+                        Command="{Binding Advance}" Style="{StaticResource FilledButtonStyle}"
+                        AutomationProperties.AutomationId="Advance"
+                        HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
+                <Button x:Uid="Treatment_Save" Content="Save" Command="{Binding Save}" Style="{StaticResource OutlinedButtonStyle}"
+                        HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
+                <Button x:Uid="Treatment_StepBack" Content="Step back" Command="{Binding StepBack}" Style="{StaticResource TextButtonStyle}"
+                        Visibility="{Binding CanStepBack, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}"
+                        HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
+              </StackPanel>
+            </StackPanel>
+          </StackPanel>
+        </Grid>
+      </ScrollViewer>
+    </utu:SafeArea>
+  </Grid>
+</Page>

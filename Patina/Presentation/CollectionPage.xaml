@@ -1,0 +1,189 @@
+<Page x:Class="Patina.Presentation.CollectionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Patina.Controls"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      xmlns:uen="using:Uno.Extensions.Navigation.UI"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <Page.Resources>
+    <DataTemplate x:Key="ArtworkRowTemplate">
+      <Grid Padding="24,14" ColumnSpacing="16"
+            AutomationProperties.Name="{Binding Title}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="2">
+          <TextBlock Text="{Binding Accession}" Style="{StaticResource AccessionTextStyle}" />
+          <TextBlock Text="{Binding Title}" Style="{StaticResource TitleMedium}" TextWrapping="WrapWholeWords"
+                     Foreground="{ThemeResource OnSurfaceBrush}" />
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock Text="{Binding Artist}" Style="{StaticResource MutedBodyTextStyle}" />
+            <TextBlock Text="·" Style="{StaticResource MutedBodyTextStyle}" />
+            <TextBlock Text="{Binding Material, Converter={StaticResource EnumText}}" Style="{StaticResource MutedBodyTextStyle}" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,4,0,0">
+            <TextBlock Text="{Binding Converter={StaticResource DueText}}" Style="{StaticResource LabelMedium}"
+                       Foreground="{ThemeResource OnSurfaceBrush}" />
+            <TextBlock x:Uid="Collection_DraftBadge" Text="Draft in progress" Style="{StaticResource LabelMedium}"
+                       Foreground="{ThemeResource PrimaryBrush}"
+                       Visibility="{Binding HasDraft, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+          </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Spacing="6" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <controls:ConditionStrip Grade="{Binding Grade}" HorizontalAlignment="Right" />
+          <TextBlock Text="{Binding OpenTreatments, Converter={StaticResource CountText}, ConverterParameter=OpenTreatments}"
+                     Style="{StaticResource LabelSmall}" HorizontalAlignment="Right"
+                     Foreground="{ThemeResource OnSurfaceVariantBrush}"
+                     Visibility="{Binding OpenTreatments, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid controls:Entrance.IsEnabled="True">
+    <Grid.ColumnDefinitions>
+      <!-- ColumnDefinition is not a FrameworkElement, so {utu:Responsive} does not apply to it; the list spans both columns below Widest -->
+      <ColumnDefinition Width="*" MaxWidth="{StaticResource ListPaneWidth}" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- List pane: the anchor is the count of works needing attention, at display scale -->
+    <Grid utu:SafeArea.Insets="Top" Grid.ColumnSpan="{utu:Responsive Narrowest=2, Widest=1}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <Grid Padding="24,28,24,8" ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Spacing="4">
+          <TextBlock x:Uid="Collection_Eyebrow" Text="City public art collection" Style="{StaticResource EyebrowTextStyle}" />
+          <mvux:FeedView Source="{Binding Stats}" IsTabStop="False">
+            <mvux:FeedView.ValueTemplate>
+              <DataTemplate>
+                <StackPanel Spacing="2">
+                  <StackPanel Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="{Binding Data.NeedsAttention}" Style="{StaticResource DisplayLarge}"
+                               Foreground="{ThemeResource OnSurfaceBrush}" AutomationProperties.HeadingLevel="Level1" />
+                    <TextBlock x:Uid="Collection_NeedAttention" Text="need attention" Style="{StaticResource TitleMedium}"
+                               VerticalAlignment="Bottom" Margin="0,0,0,10" Foreground="{ThemeResource OnSurfaceBrush}" />
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="{Binding Data.Total, Converter={StaticResource CountText}, ConverterParameter=Works}" Style="{StaticResource MutedBodyTextStyle}" />
+                    <TextBlock Text="{Binding Data.Critical, Converter={StaticResource CountText}, ConverterParameter=Critical}" Style="{StaticResource MutedBodyTextStyle}" />
+                    <TextBlock Text="{Binding Data.Overdue, Converter={StaticResource CountText}, ConverterParameter=Overdue}" Style="{StaticResource MutedBodyTextStyle}" />
+                  </StackPanel>
+                </StackPanel>
+              </DataTemplate>
+            </mvux:FeedView.ValueTemplate>
+            <mvux:FeedView.ProgressTemplate>
+              <DataTemplate>
+                <TextBlock Text="…" Style="{StaticResource DisplayLarge}" Foreground="{ThemeResource OutlineVariantBrush}" />
+              </DataTemplate>
+            </mvux:FeedView.ProgressTemplate>
+            <mvux:FeedView.ErrorTemplate>
+              <DataTemplate>
+                <TextBlock Text="—" Style="{StaticResource DisplayLarge}" Foreground="{ThemeResource OutlineVariantBrush}" />
+              </DataTemplate>
+            </mvux:FeedView.ErrorTemplate>
+          </mvux:FeedView>
+        </StackPanel>
+        <Button Grid.Column="1" VerticalAlignment="Top"
+                Style="{StaticResource TextButtonStyle}"
+                uen:Navigation.Request="Map"
+                AutomationProperties.AutomationId="ShowMap"
+                Visibility="{utu:Responsive Narrowest=Visible, Widest=Collapsed}">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <FontIcon Glyph="&#xE707;" FontSize="16" />
+            <TextBlock x:Uid="Collection_ShowMap" Text="Map" />
+          </StackPanel>
+        </Button>
+      </Grid>
+
+      <StackPanel Grid.Row="1" Spacing="8" Padding="24,8,24,8">
+        <TextBox x:Uid="Collection_Search"
+                 PlaceholderText="Search title, artist, accession or place"
+                 Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 InputScope="Search"
+                 AutomationProperties.AutomationId="SearchBox" />
+        <!-- ChipGroup does not wrap: scroll it horizontally on phones (runtime gotchas) -->
+        <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden"
+                      VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled">
+          <utu:ChipGroup ItemsSource="{Binding Filters}"
+                         SelectionMode="Single"
+                         SelectedItem="{Binding Filter, Mode=TwoWay}"
+                         Style="{StaticResource FilterChipGroupStyle}">
+            <utu:ChipGroup.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding Label}" />
+              </DataTemplate>
+            </utu:ChipGroup.ItemTemplate>
+          </utu:ChipGroup>
+        </ScrollViewer>
+      </StackPanel>
+
+      <mvux:FeedView x:Name="ArtworkFeed" Grid.Row="2" Source="{Binding Artworks}" IsTabStop="False">
+        <mvux:FeedView.ValueTemplate>
+          <DataTemplate>
+            <ListView ItemsSource="{Binding Data}"
+                      ItemTemplate="{StaticResource ArtworkRowTemplate}"
+                      SelectionMode="None"
+                      IsItemClickEnabled="True"
+                      uen:Navigation.Request="Artwork"
+                      AutomationProperties.AutomationId="ArtworkList">
+              <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
+                  <Setter Property="Padding" Value="0" />
+                  <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+              </ListView.ItemContainerStyle>
+            </ListView>
+          </DataTemplate>
+        </mvux:FeedView.ValueTemplate>
+        <mvux:FeedView.ProgressTemplate>
+          <DataTemplate>
+            <ContentControl ContentTemplate="{StaticResource ListProgressTemplate}" Padding="24,0" />
+          </DataTemplate>
+        </mvux:FeedView.ProgressTemplate>
+        <mvux:FeedView.NoneTemplate>
+          <DataTemplate>
+            <StackPanel Spacing="12" Padding="24,32" HorizontalAlignment="Left">
+              <TextBlock x:Uid="Collection_NoMatchTitle" Text="No works match" Style="{StaticResource TitleLarge}" />
+              <TextBlock x:Uid="Collection_NoMatchBody" Text="Nothing in the collection matches this search and filter." Style="{StaticResource MutedBodyTextStyle}" />
+              <Button x:Uid="Collection_ClearFilters" Content="Show the whole collection"
+                      Style="{StaticResource OutlinedButtonStyle}"
+                      Command="{utu:AncestorBinding AncestorType=Page, Path=DataContext.ClearFilters}" />
+            </StackPanel>
+          </DataTemplate>
+        </mvux:FeedView.NoneTemplate>
+        <mvux:FeedView.ErrorTemplate>
+          <DataTemplate>
+            <StackPanel Spacing="12" Padding="24,32" HorizontalAlignment="Left">
+              <TextBlock x:Uid="Collection_ErrorTitle" Text="The collection could not be opened" Style="{StaticResource TitleLarge}" />
+              <TextBlock Text="{Binding Message}" Style="{StaticResource MutedBodyTextStyle}" />
+              <Button x:Uid="Common_Retry" Content="Try again"
+                      Style="{StaticResource FilledButtonStyle}"
+                      Command="{Binding Refresh, ElementName=ArtworkFeed}" />
+            </StackPanel>
+          </DataTemplate>
+        </mvux:FeedView.ErrorTemplate>
+      </mvux:FeedView>
+    </Grid>
+
+    <!-- Map pane, Widest and up: full-bleed to the window edge -->
+    <Grid Grid.Column="1" Visibility="{utu:Responsive Narrowest=Collapsed, Widest=Visible}">
+      <controls:ArtworkMap Artworks="{Binding Artworks}"
+                           SelectedId="{Binding SelectedId, Mode=TwoWay}"
+                           AutomationProperties.Name="Map of the collection" />
+      <controls:MapCallout Margin="24" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+    </Grid>
+  </Grid>
+</Page>

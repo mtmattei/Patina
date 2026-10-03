@@ -492,3 +492,6 @@ solution-config.props
 !**/Properties/PublishProfiles/*.pubxml
 # design tool scratch
 _design-out/
+
+# verification captures
+_shots/

@@ -59,5 +59,6 @@ public sealed record TreatmentDetail(
     Treatment Treatment,
     TreatmentSummary Summary,
     Artwork Artwork,
+    ArtworkSummary ArtworkSummary,
     Survey? Survey,
     Finding? Finding);

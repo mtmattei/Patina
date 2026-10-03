@@ -1,123 +1,228 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
-    Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
-    associated with the data types.
-
-    Example:
-
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-
-    There are any number of "resheader" rows that contain simple
-    name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
-    mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
-    extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
-    read any of the formats listed below.
-
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="ApplicationName" xml:space="preserve">
-    <value>Patina-en</value>
-  </data>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ApplicationName" xml:space="preserve"><value>Patina</value></data>
+  <data name="ArtMaterial_Bronze" xml:space="preserve"><value>Bronze</value></data>
+  <data name="ArtMaterial_Concrete" xml:space="preserve"><value>Concrete</value></data>
+  <data name="ArtMaterial_Mosaic" xml:space="preserve"><value>Mosaic</value></data>
+  <data name="ArtMaterial_Mural" xml:space="preserve"><value>Mural</value></data>
+  <data name="ArtMaterial_Steel" xml:space="preserve"><value>Steel</value></data>
+  <data name="ArtMaterial_Stone" xml:space="preserve"><value>Stone</value></data>
+  <data name="ArtMaterial_Wood" xml:space="preserve"><value>Wood</value></data>
+  <data name="Artwork_CompletedTreatments.Text" xml:space="preserve"><value>Completed treatments</value></data>
+  <data name="Artwork_ConditionHeading.Text" xml:space="preserve"><value>Condition</value></data>
+  <data name="Artwork_ErrorTitle.Text" xml:space="preserve"><value>This record could not be opened</value></data>
+  <data name="Artwork_GoneBody.Text" xml:space="preserve"><value>It may have been removed by an import. Go back to the collection.</value></data>
+  <data name="Artwork_GoneTitle.Text" xml:space="preserve"><value>This record is no longer in the collection</value></data>
+  <data name="Artwork_History.Text" xml:space="preserve"><value>Condition history</value></data>
+  <data name="Artwork_Interval" xml:space="preserve"><value>{0} works are surveyed every {1} months.</value></data>
+  <data name="Artwork_IntervalAdjusted" xml:space="preserve"><value>{0} works are surveyed every {1} months; at {2} this one is due every {3} months.</value></data>
+  <data name="Artwork_LastSurveyed.Text" xml:space="preserve"><value>Last surveyed</value></data>
+  <data name="Artwork_NoHistory.Text" xml:space="preserve"><value>Never surveyed. The first survey sets the grade and the survey schedule.</value></data>
+  <data name="Artwork_NoOpenTreatments.Text" xml:space="preserve"><value>Nothing open. Serious and urgent findings become treatments when a survey is submitted.</value></data>
+  <data name="Artwork_NoPhotoBody.Text" xml:space="preserve"><value>Photos added during a survey become the record photograph.</value></data>
+  <data name="Artwork_NoPhotoTitle.Text" xml:space="preserve"><value>No photograph yet</value></data>
+  <data name="Artwork_OpenTreatments.Text" xml:space="preserve"><value>Open treatments</value></data>
+  <data name="Artwork_ResumeSurvey" xml:space="preserve"><value>Resume draft survey</value></data>
+  <data name="Artwork_StartSurvey" xml:space="preserve"><value>Start survey</value></data>
+  <data name="CollectionFilter_All" xml:space="preserve"><value>All</value></data>
+  <data name="CollectionFilter_NeedsAttention" xml:space="preserve"><value>Needs attention</value></data>
+  <data name="CollectionFilter_Overdue" xml:space="preserve"><value>Overdue</value></data>
+  <data name="CollectionFilter_Unsurveyed" xml:space="preserve"><value>Never surveyed</value></data>
+  <data name="Collection_ClearFilters.Content" xml:space="preserve"><value>Show the whole collection</value></data>
+  <data name="Collection_DraftBadge.Text" xml:space="preserve"><value>Draft in progress</value></data>
+  <data name="Collection_ErrorTitle.Text" xml:space="preserve"><value>The collection could not be opened</value></data>
+  <data name="Collection_Eyebrow.Text" xml:space="preserve"><value>City public art collection</value></data>
+  <data name="Collection_NeedAttention.Text" xml:space="preserve"><value>need attention</value></data>
+  <data name="Collection_NoMatchBody.Text" xml:space="preserve"><value>Nothing in the collection matches this search and filter.</value></data>
+  <data name="Collection_NoMatchTitle.Text" xml:space="preserve"><value>No works match</value></data>
+  <data name="Collection_Search.PlaceholderText" xml:space="preserve"><value>Search title, artist, accession or place</value></data>
+  <data name="Collection_ShowMap.Text" xml:space="preserve"><value>Map</value></data>
+  <data name="Common_Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Common_Retry.Content" xml:space="preserve"><value>Try again</value></data>
+  <data name="Common_UnnamedSurveyor" xml:space="preserve"><value>Unnamed surveyor</value></data>
+  <data name="ConditionGrade_Critical" xml:space="preserve"><value>Critical</value></data>
+  <data name="ConditionGrade_Fair" xml:space="preserve"><value>Fair</value></data>
+  <data name="ConditionGrade_Good" xml:space="preserve"><value>Good</value></data>
+  <data name="ConditionGrade_Poor" xml:space="preserve"><value>Poor</value></data>
+  <data name="ConditionGrade_Unsurveyed" xml:space="preserve"><value>Not surveyed</value></data>
+  <data name="Critical_Many" xml:space="preserve"><value>{0} critical</value></data>
+  <data name="Critical_One" xml:space="preserve"><value>{0} critical</value></data>
+  <data name="Due_Current" xml:space="preserve"><value>Next survey {0}</value></data>
+  <data name="Due_Never" xml:space="preserve"><value>Never surveyed</value></data>
+  <data name="Due_Overdue" xml:space="preserve"><value>Overdue since {0}</value></data>
+  <data name="Due_Soon" xml:space="preserve"><value>Due {0}</value></data>
+  <data name="FindingType_BiologicalGrowth" xml:space="preserve"><value>Biological growth</value></data>
+  <data name="FindingType_CoatingFailure" xml:space="preserve"><value>Coating failure</value></data>
+  <data name="FindingType_Corrosion" xml:space="preserve"><value>Corrosion</value></data>
+  <data name="FindingType_Cracking" xml:space="preserve"><value>Cracking</value></data>
+  <data name="FindingType_Efflorescence" xml:space="preserve"><value>Efflorescence</value></data>
+  <data name="FindingType_Fading" xml:space="preserve"><value>Fading</value></data>
+  <data name="FindingType_Flaking" xml:space="preserve"><value>Flaking paint</value></data>
+  <data name="FindingType_Graffiti" xml:space="preserve"><value>Graffiti</value></data>
+  <data name="FindingType_MaterialLoss" xml:space="preserve"><value>Material loss</value></data>
+  <data name="FindingType_Soiling" xml:space="preserve"><value>Soiling</value></data>
+  <data name="FindingType_StructuralMovement" xml:space="preserve"><value>Structural movement</value></data>
+  <data name="FindingType_Vandalism" xml:space="preserve"><value>Vandalism damage</value></data>
+  <data name="Grade_Accessible" xml:space="preserve"><value>Condition {0} of 4, {1}</value></data>
+  <data name="InProgress_Many" xml:space="preserve"><value>{0} in progress</value></data>
+  <data name="InProgress_One" xml:space="preserve"><value>{0} in progress</value></data>
+  <data name="Log_Proposed" xml:space="preserve"><value>Proposed from a survey finding.</value></data>
+  <data name="Log_StatusChanged" xml:space="preserve"><value>Moved to {0}.</value></data>
+  <data name="Log_StatusReturned" xml:space="preserve"><value>Returned to {0}.</value></data>
+  <data name="Main_Wordmark.Text" xml:space="preserve"><value>Patina</value></data>
+  <data name="Map_CloseCallout.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Close</value></data>
+  <data name="Map_OpenRecord.Content" xml:space="preserve"><value>Open record</value></data>
+  <data name="Map_Title.Content" xml:space="preserve"><value>Collection map</value></data>
+  <data name="Nav_Collection.Content" xml:space="preserve"><value>Collection</value></data>
+  <data name="Nav_Queue.Content" xml:space="preserve"><value>Treatments</value></data>
+  <data name="Nav_Settings.Content" xml:space="preserve"><value>Settings</value></data>
+  <data name="NextAction_Done" xml:space="preserve"><value>Done</value></data>
+  <data name="NextAction_InProgress" xml:space="preserve"><value>Mark done</value></data>
+  <data name="NextAction_Proposed" xml:space="preserve"><value>Schedule</value></data>
+  <data name="NextAction_Scheduled" xml:space="preserve"><value>Start work</value></data>
+  <data name="OpenTreatments_Many" xml:space="preserve"><value>{0} open treatments</value></data>
+  <data name="OpenTreatments_One" xml:space="preserve"><value>{0} open treatment</value></data>
+  <data name="Open_Many" xml:space="preserve"><value>{0} open</value></data>
+  <data name="Open_One" xml:space="preserve"><value>{0} open</value></data>
+  <data name="Overdue_Many" xml:space="preserve"><value>{0} overdue</value></data>
+  <data name="Overdue_One" xml:space="preserve"><value>{0} overdue</value></data>
+  <data name="Photos_Many" xml:space="preserve"><value>{0} photos</value></data>
+  <data name="Photos_One" xml:space="preserve"><value>{0} photo</value></data>
+  <data name="Problem_ArtworkNotFound" xml:space="preserve"><value>This artwork is no longer in the collection.</value></data>
+  <data name="Problem_CompletionNoteRequired" xml:space="preserve"><value>Add a note saying what was done before marking it done.</value></data>
+  <data name="Problem_FindingZoneRequired" xml:space="preserve"><value>Say where on the object each finding is.</value></data>
+  <data name="Problem_ImportNewerVersion" xml:space="preserve"><value>That file was exported by a newer version of Patina. Update the app first.</value></data>
+  <data name="Problem_ImportNotPatinaFile" xml:space="preserve"><value>That file is not a Patina collection export.</value></data>
+  <data name="Problem_NoEarlierStatus" xml:space="preserve"><value>This treatment is already at its first step.</value></data>
+  <data name="Problem_None" xml:space="preserve"><value></value></data>
+  <data name="Problem_ScheduleDateRequired" xml:space="preserve"><value>Pick a date to schedule the work.</value></data>
+  <data name="Problem_SurveyAlreadySubmitted" xml:space="preserve"><value>This survey was already submitted.</value></data>
+  <data name="Problem_SurveyNotFound" xml:space="preserve"><value>This survey no longer exists.</value></data>
+  <data name="Problem_SurveyorRequired" xml:space="preserve"><value>Enter the surveyor's name before submitting.</value></data>
+  <data name="Problem_TreatmentAlreadyDone" xml:space="preserve"><value>This treatment is done and can no longer change.</value></data>
+  <data name="Problem_TreatmentNotFound" xml:space="preserve"><value>This treatment is no longer in the queue.</value></data>
+  <data name="QueueFilter_Done" xml:space="preserve"><value>Done</value></data>
+  <data name="QueueFilter_InProgress" xml:space="preserve"><value>In progress</value></data>
+  <data name="QueueFilter_Open" xml:space="preserve"><value>Open</value></data>
+  <data name="QueueFilter_Proposed" xml:space="preserve"><value>Proposed</value></data>
+  <data name="QueueFilter_Scheduled" xml:space="preserve"><value>Scheduled</value></data>
+  <data name="Queue_EmptyBody.Text" xml:space="preserve"><value>No treatments in this status. Submitted surveys propose treatments for serious and urgent findings.</value></data>
+  <data name="Queue_EmptyTitle.Text" xml:space="preserve"><value>Nothing here</value></data>
+  <data name="Queue_ErrorTitle.Text" xml:space="preserve"><value>The queue could not be opened</value></data>
+  <data name="Queue_Eyebrow.Text" xml:space="preserve"><value>Treatment queue</value></data>
+  <data name="Queue_Late.Text" xml:space="preserve"><value>Late</value></data>
+  <data name="Queue_ShowOpen.Content" xml:space="preserve"><value>Show all open work</value></data>
+  <data name="Queue_Urgent.Text" xml:space="preserve"><value>urgent</value></data>
+  <data name="Settings_AboutCredits.Text" xml:space="preserve"><value>Map data © OpenStreetMap contributors (ODbL). IBM Plex typefaces under the SIL Open Font License.</value></data>
+  <data name="Settings_AboutHeading.Text" xml:space="preserve"><value>About</value></data>
+  <data name="Settings_AboutSample.Text" xml:space="preserve"><value>The sample collection is fictional: invented works and artists placed at real Montréal sites.</value></data>
+  <data name="Settings_AppearanceHeading.Text" xml:space="preserve"><value>Appearance</value></data>
+  <data name="Settings_DataBody.Text" xml:space="preserve"><value>The collection lives on this device. Export it to a .patina file to back it up or move it to another device; importing replaces everything here.</value></data>
+  <data name="Settings_DataFolder.Text" xml:space="preserve"><value>Data folder</value></data>
+  <data name="Settings_DataHeading.Text" xml:space="preserve"><value>Collection data</value></data>
+  <data name="Settings_Export.Content" xml:space="preserve"><value>Export collection</value></data>
+  <data name="Settings_ExportFailed" xml:space="preserve"><value>The file could not be written. Choose another location and try again.</value></data>
+  <data name="Settings_Exported" xml:space="preserve"><value>Collection exported.</value></data>
+  <data name="Settings_Eyebrow.Text" xml:space="preserve"><value>Settings</value></data>
+  <data name="Settings_Import.Content" xml:space="preserve"><value>Import collection</value></data>
+  <data name="Settings_ImportBody" xml:space="preserve"><value>Replace everything on this device with {0}? It holds {1} works and {2} surveys. Export first if you want to keep the current collection.</value></data>
+  <data name="Settings_ImportConfirm" xml:space="preserve"><value>Replace collection</value></data>
+  <data name="Settings_ImportTitle" xml:space="preserve"><value>Import collection</value></data>
+  <data name="Settings_Imported" xml:space="preserve"><value>Collection imported.</value></data>
+  <data name="Settings_LanguageHeading.Text" xml:space="preserve"><value>Language</value></data>
+  <data name="Settings_LanguageRestart" xml:space="preserve"><value>Restart Patina to switch language.</value></data>
+  <data name="Settings_ReduceMotion.Header" xml:space="preserve"><value>Reduce motion</value></data>
+  <data name="Settings_Reset.Content" xml:space="preserve"><value>Restore sample collection</value></data>
+  <data name="Settings_ResetBody" xml:space="preserve"><value>Every survey, treatment and photo reference on this device will be replaced by the sample collection. Export first to keep them.</value></data>
+  <data name="Settings_ResetConfirm" xml:space="preserve"><value>Restore sample</value></data>
+  <data name="Settings_ResetDone" xml:space="preserve"><value>Sample collection restored.</value></data>
+  <data name="Settings_ResetTitle" xml:space="preserve"><value>Restore the sample collection?</value></data>
+  <data name="Settings_Surveyor.Header" xml:space="preserve"><value>Name</value></data>
+  <data name="Settings_SurveyorBody.Text" xml:space="preserve"><value>Your name is stamped on every survey and log entry you make on this device.</value></data>
+  <data name="Settings_SurveyorHeading.Text" xml:space="preserve"><value>Who is surveying?</value></data>
+  <data name="Settings_Theme.Header" xml:space="preserve"><value>Theme</value></data>
+  <data name="Settings_ThemeDark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Settings_ThemeLight" xml:space="preserve"><value>Light</value></data>
+  <data name="Settings_ThemeSystem" xml:space="preserve"><value>System</value></data>
+  <data name="Severity_Minor" xml:space="preserve"><value>Minor</value></data>
+  <data name="Severity_Moderate" xml:space="preserve"><value>Moderate</value></data>
+  <data name="Severity_Serious" xml:space="preserve"><value>Serious</value></data>
+  <data name="Severity_Urgent" xml:space="preserve"><value>Urgent</value></data>
+  <data name="Survey_AddFinding.Content" xml:space="preserve"><value>Add finding</value></data>
+  <data name="Survey_AddFindingHeading.Text" xml:space="preserve"><value>Add a finding</value></data>
+  <data name="Survey_AddPhoto.Text" xml:space="preserve"><value>Add photo</value></data>
+  <data name="Survey_Back.Label" xml:space="preserve"><value>Back</value></data>
+  <data name="Survey_DetailsHeading.Text" xml:space="preserve"><value>Survey</value></data>
+  <data name="Survey_Discard.Content" xml:space="preserve"><value>Discard draft</value></data>
+  <data name="Survey_DiscardBody" xml:space="preserve"><value>The findings and notes in this draft will be deleted. Photos already taken stay on the device.</value></data>
+  <data name="Survey_DiscardConfirm" xml:space="preserve"><value>Discard</value></data>
+  <data name="Survey_DiscardTitle" xml:space="preserve"><value>Discard this draft?</value></data>
+  <data name="Survey_DraftSaved" xml:space="preserve"><value>Draft saved.</value></data>
+  <data name="Survey_FindingNote.Header" xml:space="preserve"><value>Note</value></data>
+  <data name="Survey_FindingSeverity.Header" xml:space="preserve"><value>Severity</value></data>
+  <data name="Survey_FindingType.PlaceholderText" xml:space="preserve"><value>Choose a type</value></data>
+  <data name="Survey_FindingTypeLabel.Text" xml:space="preserve"><value>Type</value></data>
+  <data name="Survey_FindingTypeRequired" xml:space="preserve"><value>Choose a type for the finding.</value></data>
+  <data name="Survey_FindingZone.Header" xml:space="preserve"><value>Where on the object</value></data>
+  <data name="Survey_FindingZone.PlaceholderText" xml:space="preserve"><value>North face, base, left hand…</value></data>
+  <data name="Survey_FindingsHeading.Text" xml:space="preserve"><value>Findings</value></data>
+  <data name="Survey_GradeHeading.Text" xml:space="preserve"><value>Grade from findings</value></data>
+  <data name="Survey_GradeRule.Text" xml:space="preserve"><value>The worst finding sets the grade. Three moderate findings count as Poor.</value></data>
+  <data name="Survey_NoFindings.Text" xml:space="preserve"><value>No findings yet. A survey with no findings submits as Good.</value></data>
+  <data name="Survey_Notes.Header" xml:space="preserve"><value>General notes</value></data>
+  <data name="Survey_OverviewPhotos.Text" xml:space="preserve"><value>Overview photographs</value></data>
+  <data name="Survey_PhotoFailed" xml:space="preserve"><value>The photo could not be saved. Try another file.</value></data>
+  <data name="Survey_RemoveFinding.Content" xml:space="preserve"><value>Remove</value></data>
+  <data name="Survey_SaveDraft.Content" xml:space="preserve"><value>Save draft</value></data>
+  <data name="Survey_Submit.Content" xml:space="preserve"><value>Submit survey</value></data>
+  <data name="Survey_Surveyor.Header" xml:space="preserve"><value>Surveyor</value></data>
+  <data name="Survey_TakePhoto.Text" xml:space="preserve"><value>Take photo</value></data>
+  <data name="Survey_Title.Content" xml:space="preserve"><value>Condition survey</value></data>
+  <data name="Survey_WeatherLabel.Text" xml:space="preserve"><value>Weather</value></data>
+  <data name="ThisWeek_Many" xml:space="preserve"><value>{0} scheduled this week</value></data>
+  <data name="ThisWeek_One" xml:space="preserve"><value>{0} scheduled this week</value></data>
+  <data name="TitleSeparator" xml:space="preserve"><value>: </value></data>
+  <data name="TreatmentPriority_High" xml:space="preserve"><value>High priority</value></data>
+  <data name="TreatmentPriority_Routine" xml:space="preserve"><value>Routine</value></data>
+  <data name="TreatmentPriority_Urgent" xml:space="preserve"><value>Urgent</value></data>
+  <data name="TreatmentStatus_Done" xml:space="preserve"><value>Done</value></data>
+  <data name="TreatmentStatus_InProgress" xml:space="preserve"><value>In progress</value></data>
+  <data name="TreatmentStatus_Proposed" xml:space="preserve"><value>Proposed</value></data>
+  <data name="TreatmentStatus_Scheduled" xml:space="preserve"><value>Scheduled</value></data>
+  <data name="TreatmentVerb_BiologicalGrowth" xml:space="preserve"><value>Remove biological growth</value></data>
+  <data name="TreatmentVerb_CoatingFailure" xml:space="preserve"><value>Renew protective coating</value></data>
+  <data name="TreatmentVerb_Corrosion" xml:space="preserve"><value>Treat corrosion</value></data>
+  <data name="TreatmentVerb_Cracking" xml:space="preserve"><value>Repair cracking</value></data>
+  <data name="TreatmentVerb_Efflorescence" xml:space="preserve"><value>Reduce efflorescence</value></data>
+  <data name="TreatmentVerb_Fading" xml:space="preserve"><value>Assess fading</value></data>
+  <data name="TreatmentVerb_Flaking" xml:space="preserve"><value>Consolidate flaking paint</value></data>
+  <data name="TreatmentVerb_Graffiti" xml:space="preserve"><value>Remove graffiti</value></data>
+  <data name="TreatmentVerb_MaterialLoss" xml:space="preserve"><value>Consolidate losses</value></data>
+  <data name="TreatmentVerb_Soiling" xml:space="preserve"><value>Clean surface</value></data>
+  <data name="TreatmentVerb_StructuralMovement" xml:space="preserve"><value>Stabilize structure</value></data>
+  <data name="TreatmentVerb_Vandalism" xml:space="preserve"><value>Repair vandalism damage</value></data>
+  <data name="Treatment_Assignee.Header" xml:space="preserve"><value>Assigned to</value></data>
+  <data name="Treatment_Date.Header" xml:space="preserve"><value>Scheduled for</value></data>
+  <data name="Treatment_ErrorTitle.Text" xml:space="preserve"><value>This treatment could not be opened</value></data>
+  <data name="Treatment_GoneBody.Text" xml:space="preserve"><value>It may have been removed by an import. Go back to the queue.</value></data>
+  <data name="Treatment_GoneTitle.Text" xml:space="preserve"><value>This treatment is no longer in the queue</value></data>
+  <data name="Treatment_LogHeading.Text" xml:space="preserve"><value>Log</value></data>
+  <data name="Treatment_Note.Header" xml:space="preserve"><value>Add to the log</value></data>
+  <data name="Treatment_Note.PlaceholderText" xml:space="preserve"><value>What was done, what was found. Required to mark the work done.</value></data>
+  <data name="Treatment_Origin.Text" xml:space="preserve"><value>From the survey of</value></data>
+  <data name="Treatment_Save.Content" xml:space="preserve"><value>Save</value></data>
+  <data name="Treatment_Saved" xml:space="preserve"><value>Saved.</value></data>
+  <data name="Treatment_StepBack.Content" xml:space="preserve"><value>Step back</value></data>
+  <data name="Treatment_Title.Content" xml:space="preserve"><value>Treatment</value></data>
+  <data name="Weather_Dry" xml:space="preserve"><value>Dry</value></data>
+  <data name="Weather_Freezing" xml:space="preserve"><value>Freezing</value></data>
+  <data name="Weather_Hot" xml:space="preserve"><value>Hot</value></data>
+  <data name="Weather_Overcast" xml:space="preserve"><value>Overcast</value></data>
+  <data name="Weather_Wet" xml:space="preserve"><value>Wet</value></data>
+  <data name="Works_Many" xml:space="preserve"><value>{0} works</value></data>
+  <data name="Works_One" xml:space="preserve"><value>{0} work</value></data>
 </root>

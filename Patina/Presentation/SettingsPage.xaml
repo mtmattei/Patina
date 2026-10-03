@@ -1,0 +1,82 @@
+<Page x:Class="Patina.Presentation.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Patina.Controls"
+      xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Required"
+      Background="{ThemeResource BackgroundBrush}">
+
+  <utu:SafeArea Insets="Top,SoftInput" Mode="Padding">
+    <ScrollViewer>
+      <Grid>
+          <StackPanel MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" Spacing="32" Padding="24,28,24,40" controls:Entrance.IsEnabled="True">
+          <StackPanel Spacing="4">
+            <TextBlock x:Uid="Settings_Eyebrow" Text="Settings" Style="{StaticResource EyebrowTextStyle}" />
+            <!-- Anchor: who is recording -->
+            <TextBlock x:Uid="Settings_SurveyorHeading" Text="Who is surveying?" Style="{StaticResource DisplaySmall}"
+                       AutomationProperties.HeadingLevel="Level1" TextWrapping="WrapWholeWords" />
+            <TextBlock x:Uid="Settings_SurveyorBody" Text="Your name is stamped on every survey and log entry you make on this device."
+                       Style="{StaticResource MutedBodyTextStyle}" />
+            <TextBox x:Uid="Settings_Surveyor" Header="Name" Margin="0,8,0,0"
+                     Text="{Binding Surveyor, Mode=TwoWay}" AutomationProperties.AutomationId="SettingsSurveyor" />
+          </StackPanel>
+
+          <StackPanel Spacing="12">
+            <TextBlock x:Uid="Settings_AppearanceHeading" Text="Appearance" Style="{StaticResource SectionTitleTextStyle}" />
+            <RadioButtons x:Uid="Settings_Theme" Header="Theme"
+                          ItemsSource="{Binding ThemeOptions}"
+                          SelectedIndex="{Binding ThemeIndex, Mode=TwoWay}"
+                          MaxColumns="3" AutomationProperties.AutomationId="ThemeChoice" />
+            <ToggleSwitch x:Uid="Settings_ReduceMotion" Header="Reduce motion"
+                          IsOn="{Binding ReduceMotion, Mode=TwoWay}" />
+          </StackPanel>
+
+          <StackPanel Spacing="12">
+            <TextBlock x:Uid="Settings_LanguageHeading" Text="Language" Style="{StaticResource SectionTitleTextStyle}" />
+            <RadioButtons ItemsSource="{Binding LanguageOptions}"
+                          SelectedIndex="{Binding LanguageIndex, Mode=TwoWay}"
+                          MaxColumns="2" AutomationProperties.Name="Language"
+                          AutomationProperties.AutomationId="LanguageChoice" />
+          </StackPanel>
+
+          <StackPanel Spacing="12">
+            <TextBlock x:Uid="Settings_DataHeading" Text="Collection data" Style="{StaticResource SectionTitleTextStyle}" />
+            <TextBlock x:Uid="Settings_DataBody"
+                       Text="The collection lives on this device. Export it to a .patina file to back it up or move it to another device; importing replaces everything here."
+                       Style="{StaticResource MutedBodyTextStyle}" />
+            <StackPanel Orientation="{utu:Responsive Narrowest=Vertical, Normal=Horizontal}" Spacing="12">
+              <Button x:Uid="Settings_Export" Content="Export collection" Command="{Binding Export}"
+                      Style="{StaticResource FilledTonalButtonStyle}" AutomationProperties.AutomationId="Export"
+                      HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
+              <Button x:Uid="Settings_Import" Content="Import collection" Command="{Binding Import}"
+                      Style="{StaticResource OutlinedButtonStyle}" AutomationProperties.AutomationId="Import"
+                      HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
+              <Button x:Uid="Settings_Reset" Content="Restore sample collection" Command="{Binding ResetSample}"
+                      Style="{StaticResource TextButtonStyle}" Foreground="{ThemeResource ErrorBrush}"
+                      HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
+            </StackPanel>
+            <TextBlock Text="{Binding Message}" Style="{StaticResource BodyMedium}" TextWrapping="WrapWholeWords"
+                       AutomationProperties.LiveSetting="Assertive" AutomationProperties.AutomationId="SettingsMessage"
+                       Visibility="{Binding Message, Converter={StaticResource VisibleWhen}, FallbackValue=Collapsed}" />
+          </StackPanel>
+
+          <StackPanel Spacing="6">
+            <TextBlock x:Uid="Settings_AboutHeading" Text="About" Style="{StaticResource SectionTitleTextStyle}" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBlock Text="Patina" Style="{StaticResource TitleSmall}" />
+              <TextBlock Text="{Binding Version}" Style="{StaticResource MonoTextStyle}" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock x:Uid="Settings_AboutSample" Text="The sample collection is fictional: invented works and artists placed at real Montréal sites."
+                       Style="{StaticResource MutedBodyTextStyle}" />
+            <TextBlock x:Uid="Settings_AboutCredits" Text="Map data © OpenStreetMap contributors (ODbL). IBM Plex typefaces under the SIL Open Font License."
+                       Style="{StaticResource MutedBodyTextStyle}" />
+            <StackPanel Spacing="2" Margin="0,8,0,0">
+              <TextBlock x:Uid="Settings_DataFolder" Text="Data folder" Style="{StaticResource LabelMedium}" />
+              <TextBlock Text="{Binding DataFolder}" Style="{StaticResource MonoTextStyle}" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+            </StackPanel>
+          </StackPanel>
+        </StackPanel>
+      </Grid>
+    </ScrollViewer>
+  </utu:SafeArea>
+</Page>

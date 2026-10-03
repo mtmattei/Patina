@@ -1,18 +1,4 @@
 namespace Patina.Presentation;
 
-public partial record MainModel
-{
-    public MainModel(
-        IStringLocalizer localizer,
-        IOptions<AppConfig> appInfo,
-        INavigator navigator)
-    {
-        Title = "Main";
-        Title += $" - {localizer["ApplicationName"]}";
-        Title += $" - {appInfo?.Value?.Environment}";
-    }
-
-    public string? Title { get; }
-
-
-}
+/// <summary>The app frame: navigation rail / tab bar around the Collection, Queue and Settings regions.</summary>
+public partial record MainModel;

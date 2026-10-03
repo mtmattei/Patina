@@ -1,8 +1,8 @@
 namespace Patina.Presentation;
 
-public sealed partial class MainPage : Page
+public sealed partial class TreatmentPage : Page
 {
-    public MainPage()
+    public TreatmentPage()
     {
         this.InitializeComponent();
     }
