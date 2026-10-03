@@ -6,7 +6,35 @@
       NavigationCacheMode="Required"
       Background="{ThemeResource BackgroundBrush}">
 
+  <!--
+    WORKAROUND(ResponsiveExtension does not reconnect after Unloaded): this page is cached
+    (NavigationCacheMode=Required) and leaves the visual tree whenever a detail page opens in the shell frame.
+    Toolkit 9.1 ResponsiveExtension disconnects on the host's Unloaded and never re-subscribes on the next Loaded
+    (src/Uno.Toolkit.UI/Markup/ResponsiveExtension.cs, release/stable/9.1), so {utu:Responsive} values here froze
+    after the first artwork was opened. AdaptiveTrigger states carry the same 800 px (Wide) breakpoint instead.
+    Kept local to the cached pages; detail pages are recreated per navigation and keep {utu:Responsive}.
+  -->
+  <!-- xaml-lint: allow responsive - see WORKAROUND above -->
   <Grid uen:Region.Attached="True">
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="WidthStates">
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="Wide">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="800" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Rail.Visibility" Value="Visible" />
+            <Setter Target="RailDivider.Visibility" Value="Visible" />
+            <Setter Target="BottomBar.Visibility" Value="Collapsed" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*" />
@@ -17,9 +45,10 @@
     </Grid.RowDefinitions>
 
     <!-- Wide and up: vertical rail. The tab bar's own surface fills the rail; the wordmark sits on top of it. -->
-    <Grid Grid.RowSpan="2"
+    <Grid x:Name="Rail"
+          Grid.RowSpan="2"
           utu:SafeArea.Insets="Left,Top,Bottom"
-          Visibility="{utu:Responsive Narrowest=Collapsed, Wide=Visible}">
+          Visibility="Collapsed">
       <utu:TabBar uen:Region.Attached="True"
                   Style="{StaticResource VerticalTabBarStyle}">
         <utu:TabBar.ItemsPanel>
@@ -58,9 +87,9 @@
                  Foreground="{ThemeResource PrimaryBrush}" />
     </Grid>
 
-    <Rectangle Grid.RowSpan="2" Width="1" HorizontalAlignment="Right"
+    <Rectangle x:Name="RailDivider" Grid.RowSpan="2" Width="1" HorizontalAlignment="Right"
                Fill="{ThemeResource OutlineVariantBrush}"
-               Visibility="{utu:Responsive Narrowest=Collapsed, Wide=Visible}" />
+               Visibility="Collapsed" />
 
     <!-- Route-based Visibility region: Collection / Queue / Settings are created by the navigator -->
     <Grid Grid.Column="1"
@@ -68,10 +97,10 @@
           uen:Region.Navigator="Visibility" />
 
     <!-- Below Wide: bottom tab bar -->
-    <utu:TabBar Grid.Row="1" Grid.ColumnSpan="2"
+    <utu:TabBar x:Name="BottomBar"
+                Grid.Row="1" Grid.ColumnSpan="2"
                 uen:Region.Attached="True"
-                Style="{StaticResource BottomTabBarStyle}"
-                Visibility="{utu:Responsive Narrowest=Visible, Wide=Collapsed}">
+                Style="{StaticResource BottomTabBarStyle}">
       <utu:TabBarItem x:Uid="Nav_Collection" uen:Region.Name="Collection" Content="Collection"
                       AutomationProperties.AutomationId="TabCollection">
         <utu:TabBarItem.Icon>

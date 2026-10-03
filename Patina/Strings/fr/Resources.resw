@@ -135,7 +135,8 @@
   <data name="Settings_Imported" xml:space="preserve"><value>Collection importée.</value></data>
   <data name="Settings_LanguageHeading.Text" xml:space="preserve"><value>Langue</value></data>
   <data name="Settings_LanguageRestart" xml:space="preserve"><value>Redémarrez Patina pour changer de langue.</value></data>
-  <data name="Settings_ReduceMotion.Header" xml:space="preserve"><value>Réduire les animations</value></data>
+  <data name="Settings_ReduceMotionBody.Text" xml:space="preserve"><value>Les pages apparaissent sans mouvement. Suit le réglage du système lorsque la plateforme le fournit.</value></data>
+  <data name="Settings_ReduceMotionLabel.Text" xml:space="preserve"><value>Réduire les animations</value></data>
   <data name="Settings_Reset.Content" xml:space="preserve"><value>Restaurer la collection d'exemple</value></data>
   <data name="Settings_ResetBody" xml:space="preserve"><value>Toutes les inspections, tous les traitements et toutes les références de photos de cet appareil seront remplacés par la collection d'exemple. Exportez d'abord pour les conserver.</value></data>
   <data name="Settings_ResetConfirm" xml:space="preserve"><value>Restaurer l'exemple</value></data>

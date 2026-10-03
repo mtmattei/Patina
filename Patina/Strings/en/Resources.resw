@@ -135,7 +135,8 @@
   <data name="Settings_Imported" xml:space="preserve"><value>Collection imported.</value></data>
   <data name="Settings_LanguageHeading.Text" xml:space="preserve"><value>Language</value></data>
   <data name="Settings_LanguageRestart" xml:space="preserve"><value>Restart Patina to switch language.</value></data>
-  <data name="Settings_ReduceMotion.Header" xml:space="preserve"><value>Reduce motion</value></data>
+  <data name="Settings_ReduceMotionBody.Text" xml:space="preserve"><value>Pages appear without movement. Follows the system setting where the platform reports it.</value></data>
+  <data name="Settings_ReduceMotionLabel.Text" xml:space="preserve"><value>Reduce motion</value></data>
   <data name="Settings_Reset.Content" xml:space="preserve"><value>Restore sample collection</value></data>
   <data name="Settings_ResetBody" xml:space="preserve"><value>Every survey, treatment and photo reference on this device will be replaced by the sample collection. Export first to keep them.</value></data>
   <data name="Settings_ResetConfirm" xml:space="preserve"><value>Restore sample</value></data>

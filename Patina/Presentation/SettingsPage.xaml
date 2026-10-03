@@ -6,10 +6,39 @@
       NavigationCacheMode="Required"
       Background="{ThemeResource BackgroundBrush}">
 
+  <!--
+    WORKAROUND(ResponsiveExtension does not reconnect after Unloaded): cached page; see MainPage.xaml.
+    The data buttons stack below Normal (600 px) through an AdaptiveTrigger.
+  -->
+  <!-- xaml-lint: allow responsive - see WORKAROUND above -->
   <utu:SafeArea Insets="Top,SoftInput" Mode="Padding">
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="WidthStates">
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+        </VisualState>
+        <VisualState x:Name="Normal">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="600" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="DataActions.Orientation" Value="Horizontal" />
+            <Setter Target="ExportButton.HorizontalAlignment" Value="Left" />
+            <Setter Target="ImportButton.HorizontalAlignment" Value="Left" />
+            <Setter Target="ResetButton.HorizontalAlignment" Value="Left" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
     <ScrollViewer>
       <Grid>
-          <StackPanel MaxWidth="{StaticResource ContentMaxWidth}" HorizontalAlignment="Stretch" Spacing="32" Padding="24,28,24,40" controls:Entrance.IsEnabled="True">
+        <!-- Left-aligned like the other top-level tabs; the column caps the reading width -->
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" MaxWidth="{StaticResource ContentMaxWidth}" />
+        </Grid.ColumnDefinitions>
+          <StackPanel Spacing="32" Padding="24,28,24,40" controls:Entrance.IsEnabled="True">
           <StackPanel Spacing="4">
             <TextBlock x:Uid="Settings_Eyebrow" Text="Settings" Style="{StaticResource EyebrowTextStyle}" />
             <!-- Anchor: who is recording -->
@@ -27,8 +56,21 @@
                           ItemsSource="{Binding ThemeOptions}"
                           SelectedIndex="{Binding ThemeIndex, Mode=TwoWay}"
                           MaxColumns="3" AutomationProperties.AutomationId="ThemeChoice" />
-            <ToggleSwitch x:Uid="Settings_ReduceMotion" Header="Reduce motion"
-                          IsOn="{Binding ReduceMotion, Mode=TwoWay}" />
+            <Grid ColumnSpacing="16">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel Spacing="2" VerticalAlignment="Center">
+                <TextBlock x:Uid="Settings_ReduceMotionLabel" Text="Reduce motion" Style="{StaticResource BodyLarge}" />
+                <TextBlock x:Uid="Settings_ReduceMotionBody" Text="Pages appear without movement. Follows the system setting where the platform reports it."
+                           Style="{StaticResource MutedBodyTextStyle}" />
+              </StackPanel>
+              <ToggleSwitch Grid.Column="1" IsOn="{Binding ReduceMotion, Mode=TwoWay}"
+                            OnContent="" OffContent="" MinWidth="0"
+                            AutomationProperties.Name="Reduce motion"
+                            AutomationProperties.AutomationId="ReduceMotion" />
+            </Grid>
           </StackPanel>
 
           <StackPanel Spacing="12">
@@ -44,16 +86,16 @@
             <TextBlock x:Uid="Settings_DataBody"
                        Text="The collection lives on this device. Export it to a .patina file to back it up or move it to another device; importing replaces everything here."
                        Style="{StaticResource MutedBodyTextStyle}" />
-            <StackPanel Orientation="{utu:Responsive Narrowest=Vertical, Normal=Horizontal}" Spacing="12">
-              <Button x:Uid="Settings_Export" Content="Export collection" Command="{Binding Export}"
+            <StackPanel x:Name="DataActions" Orientation="Vertical" Spacing="12">
+              <Button x:Name="ExportButton" x:Uid="Settings_Export" Content="Export collection" Command="{Binding Export}"
                       Style="{StaticResource FilledTonalButtonStyle}" AutomationProperties.AutomationId="Export"
-                      HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
-              <Button x:Uid="Settings_Import" Content="Import collection" Command="{Binding Import}"
+                      HorizontalAlignment="Stretch" />
+              <Button x:Name="ImportButton" x:Uid="Settings_Import" Content="Import collection" Command="{Binding Import}"
                       Style="{StaticResource OutlinedButtonStyle}" AutomationProperties.AutomationId="Import"
-                      HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
-              <Button x:Uid="Settings_Reset" Content="Restore sample collection" Command="{Binding ResetSample}"
+                      HorizontalAlignment="Stretch" />
+              <Button x:Name="ResetButton" x:Uid="Settings_Reset" Content="Restore sample collection" Command="{Binding ResetSample}"
                       Style="{StaticResource TextButtonStyle}" Foreground="{ThemeResource ErrorBrush}"
-                      HorizontalAlignment="{utu:Responsive Narrowest=Stretch, Normal=Left}" />
+                      HorizontalAlignment="Stretch" />
             </StackPanel>
             <TextBlock Text="{Binding Message}" Style="{StaticResource BodyMedium}" TextWrapping="WrapWholeWords"
                        AutomationProperties.LiveSetting="Assertive" AutomationProperties.AutomationId="SettingsMessage"
