@@ -19,8 +19,8 @@ the workaround lives (`grep WORKAROUND`).
   visual states for their breakpoints, marked `WORKAROUND(ResponsiveExtension does not reconnect after Unloaded)`.
   Detail pages are recreated per navigation and keep `{utu:Responsive}`.
 - **Verified:** wide → artwork → back → 420 px → 1440 px switches correctly in both directions (2026-10-03).
-- **Upstream:** not yet filed. Suggested fix: re-subscribe `Loaded` in `OnHostUnloaded` (or keep the `Loaded`
-  subscription for the extension's lifetime).
+- **Upstream:** unoplatform/uno.toolkit.ui#1646, fixed by #1647 on `main` (2026-09-23, 11.0.0-dev builds). Not
+  on `release/stable/9.1` as of 2026-10-05. Remove the `AdaptiveTrigger` workaround once a stable Toolkit carries it.
 
 ## `{utu:Responsive}` on a `ColumnDefinition.Width` does not switch
 

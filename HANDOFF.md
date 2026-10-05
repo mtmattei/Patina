@@ -33,7 +33,7 @@ Read, not applied: Design Graph plugin, UnoAnnotation, Lapse, Atlas route diff (
 ## Next actions (in order)
 1. Android: create the upload keystore and add the four `ANDROID_*` secrets; download the signed AAB from CI.
 2. Run the Linux zip once (any Linux box or `wsl --install`) and the macOS zip on a Mac; update `docs/DEPLOY.md` matrix.
-3. File the ResponsiveExtension reconnect bug on unoplatform/uno.toolkit.ui (evidence: `docs/evidence/2026-10-03-responsive-extension-unloaded.md`). Already in `~/.claude/rules/uno-runtime-gotchas.md` with the ColumnDefinition and iOS Xcode-pairing gotchas (2026-10-05).
+3. Watch for a stable Toolkit carrying uno.toolkit.ui#1647 (fix for #1646, the ResponsiveExtension reconnect bug), then drop the three `AdaptiveTrigger` workarounds. Merge the rebased Dependabot test-package PRs once CI is green (FluentAssertions pinned below 8).
 4. Run `atlas extract Patina/App.xaml.cs --source Patina --out app.json` and diff against the SPEC route tree.
 
 ## Open questions
