@@ -6,6 +6,10 @@ updates:
     interval: weekly
     time: "10:00"
   open-pull-requests-limit: 10
+  ignore:
+  # FluentAssertions 8+ needs a paid license for commercial use; stay on 7.x and below.
+  - dependency-name: FluentAssertions
+    update-types: ["version-update:semver-major"]
   labels:
   - kind/dependency
   - do-not-merge/work-in-progress
