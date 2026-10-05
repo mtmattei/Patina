@@ -1,0 +1,55 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "patina",
+  "displayName": "Patina",
+  "summary": "Field app for surveying and caring for a city's public art.",
+  "description": "A local-first field app for a city's public-art conservation team. Conservators survey outdoor artworks and record findings with photos. The app grades condition, schedules the next survey and turns serious findings into a treatment queue. Built with MVUX, Navigation, Toolkit and Material, in English and French, with a city map of every artwork.",
+  "type": "showcase",
+  "status": "maintained",
+  "owner": "devrel",
+  "industry": "public-sector",
+  "goals": [
+    "use-maps",
+    "work-offline",
+    "take-photos",
+    "forms-and-input",
+    "localize"
+  ],
+  "platforms": [
+    "desktop",
+    "wasm",
+    "android",
+    "ios"
+  ],
+  "sourcePath": "Patina/Patina.csproj",
+  "userConversation": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a field app for a city's public-art conservation team with:\n- a collection of outdoor artworks ranked by urgency, with search, filters and a city map with condition-coloured pins\n- an artwork record: photo, condition grade, next survey date, open treatments and survey history\n- a condition survey: findings with type, zone, severity and photos, a live grade and an autosaved draft\n- a treatment queue: schedule, assign, log and complete work, late work first\n- settings for surveyor name, theme, reduced motion, language (English/French), export and import\n\nInclude:\n- full working code\n- navigation between pages\n- local storage on the device\n- seeded sample data (fictional artworks at real Montréal sites)"
+      },
+      {
+        "role": "assistant",
+        "content": "Here's **Patina**, your conservation field app! It's built and running in the preview."
+      }
+    ],
+    "suggestedPrompts": [
+      "Change the color theme",
+      "Add a filter for overdue surveys",
+      "Add a new material with its own survey interval",
+      "Show a count of open treatments on the collection page"
+    ]
+  },
+  "agentContext": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "Generate a field app for a city's public-art conservation team with:\n- a collection of outdoor artworks ranked by urgency, with search, filters and a city map with condition-coloured pins\n- an artwork record: photo, condition grade, next survey date, open treatments and survey history\n- a condition survey: findings with type, zone, severity and photos, a live grade and an autosaved draft\n- a treatment queue: schedule, assign, log and complete work, late work first\n- settings for surveyor name, theme, reduced motion, language (English/French), export and import\n\nInclude:\n- full working code\n- navigation between pages\n- local storage on the device\n- seeded sample data (fictional artworks at real Montréal sites)"
+      },
+      {
+        "role": "assistant",
+        "content": "Patina is a single-project Uno Platform app (Patina/Patina.csproj) targeting Android, iOS, WebAssembly and desktop (Skia), with domain rules in Patina.Core (plain net10.0) and NUnit tests in Patina.Tests. It uses MVUX, Uno.Extensions Navigation, Toolkit and Material.\n\n**Architecture (structural, not an exhaustive file list):**\n- **Routes** — App.xaml.cs registers Shell -> Main (nested Collection [default], Queue, Settings) plus Map, Artwork, Survey and Treatment as full-screen siblings. Artwork, Survey and Treatment receive their data through DataViewMap.\n- **Pages/Models** — each page in Presentation/ has a matching MVUX *Model.\n- **Rules** — Patina.Core/Rules: the worst finding sets the grade (three moderate findings count as Poor); survey intervals depend on material and shorten with condition; submitting a survey proposes one treatment per serious or urgent finding.\n- **Data** — stored on the device in ApplicationData.LocalFolder (patina.json plus photos/); on the web that folder lives in IndexedDB. Settings > Export writes a .patina archive.\n- **Map** — Controls/ArtworkMap.cs uses Mapsui with OpenStreetMap tiles.\n- **Design system** — Styles/ColorPaletteOverride.xaml, Typography.xaml and Tokens.xaml are generated from docs/DESIGN.md with DesignMd2Uno. Edit DESIGN.md, not the generated files.\n- **Strings** — English and French. Edit the table in tools/make_resw.py and run it.\n- **Known workaround** — the cached pages (MainPage, CollectionPage, SettingsPage) use AdaptiveTrigger instead of {utu:Responsive}; see docs/KNOWN-ISSUES.md."
+      }
+    ]
+  }
+}
