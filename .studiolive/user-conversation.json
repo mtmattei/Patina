@@ -1,0 +1,18 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Build a field app for a city's public-art conservation team:\n- a collection of outdoor artworks ranked by urgency, with search, filters and a map of condition-coloured pins\n- an artwork record with photo, condition grade, next survey date and survey history\n- a condition survey with findings (type, zone, severity, photos), a live grade and an autosaved draft\n- a treatment queue (proposed, scheduled, in progress, done) with late work first\n- settings for surveyor name, theme, reduced motion, language, export and import\n\nUse MVUX, Navigation Extensions, the Uno Toolkit and Material. Keep the data local and make it bilingual English and French."
+    },
+    {
+      "role": "assistant",
+      "content": "Here's **Patina**. It's built and running in the preview: a Collection tab with the map, artwork records, the survey flow with live grading, the treatment queue and settings, in English and French."
+    }
+  ],
+  "suggestedPrompts": [
+    "Add a chart of surveys per month to the Collection page",
+    "Add a third language",
+    "Change the condition colour scale",
+    "Add a printable survey report"
+  ]
+}

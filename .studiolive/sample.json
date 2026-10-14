@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schemas.platform.uno/sample/v1",
+  "id": "patina",
+  "displayName": "Patina",
+  "description": "Field app for a city's public-art conservation team. Conservators survey outdoor artworks, record findings with photos, and the app grades condition, schedules the next survey and turns serious findings into a treatment queue. Local-first, bilingual (English / French), one C# and XAML codebase for desktop, web, Android and iOS.",
+  "platforms": [
+    "desktop",
+    "wasm",
+    "android",
+    "ios"
+  ],
+  "sourcePath": "Patina/Patina.csproj",
+  "iconUrl": "https://raw.githubusercontent.com/mtmattei/Patina/showcase/studiolive/.studiolive/icon.png",
+  "screenshots": [
+    "https://raw.githubusercontent.com/mtmattei/Patina/showcase/studiolive/.studiolive/screenshots/collection-desktop.png",
+    "https://raw.githubusercontent.com/mtmattei/Patina/showcase/studiolive/.studiolive/screenshots/artwork-desktop.png",
+    "https://raw.githubusercontent.com/mtmattei/Patina/showcase/studiolive/.studiolive/screenshots/collection-phone.png",
+    "https://raw.githubusercontent.com/mtmattei/Patina/showcase/studiolive/.studiolive/screenshots/survey-phone.png"
+  ],
+  "showcase": {
+    "summary": "Condition surveys and a treatment queue for a city's outdoor artworks, local-first and bilingual.",
+    "type": "showcase",
+    "status": "active",
+    "owner": [
+      "mtmattei"
+    ],
+    "industry": "Public sector, cultural heritage",
+    "goals": [
+      "A responsive shell that moves between phone and desktop layouts",
+      "MVUX models backed by a local JSON document store",
+      "Navigation Extensions with typed routes and data passing",
+      "Localization with one EN/FR string table",
+      "A Mapsui map with themed tiles inside an Uno Platform page",
+      "Camera capture on Android and iOS"
+    ],
+    "requires": [
+      "OpenStreetMap public tiles for the map",
+      "A camera for survey photos (Android, iOS); desktop and web pick files"
+    ],
+    "tags": [
+      "mvux",
+      "navigation",
+      "toolkit",
+      "material",
+      "localization",
+      "maps",
+      "local-first"
+    ]
+  }
+}
