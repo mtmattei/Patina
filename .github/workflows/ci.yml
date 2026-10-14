@@ -19,7 +19,7 @@ env:
 
 jobs:
   test:
-    name: Unit tests (Patina.Core)
+    name: Unit tests (Patina/Core)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

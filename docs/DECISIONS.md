@@ -19,6 +19,7 @@ Format: Decision / Reason / Tradeoff. Newest at the bottom. Started 2026-10-03.
 
 ## D4. Uno.Sdk 6.7.30, .NET 10, single project + core library
 - **Decision:** `Patina` (Uno single project) + `Patina.Core` (plain `net10.0`: domain, rules, store) + `Patina.Tests` (MSTest on Core).
+- **Update 2026-10-14 (branch `showcase/single-project`):** Core moved into the app as `Patina/Core/` (same namespace, records made `partial` for MVUX key equality). Studio's in-browser build ignores `ProjectReference` (unoplatform/studio.live#2346). The tests compile the Core files directly.
 - **Reason:** 6.7.30 is the latest stable (NuGet, 2026-10-03). Keeping the domain in plain .NET makes the rules testable without a UI head (DYT's Core split).
 - **Tradeoff:** One extra project boundary; Core cannot touch WinRT storage, so the app supplies a file-system adapter.
 

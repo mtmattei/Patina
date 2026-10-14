@@ -3,7 +3,7 @@
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-browserwasm;net10.0-desktop</TargetFrameworks>
     <!--
       App-only override for single-head builds, e.g. -p:PatinaTargetFrameworks=net10.0-desktop for a RID-specific
-      desktop publish. A global -p:TargetFrameworks would also retarget Patina.Core, and restoring every head with a
+      desktop publish. A global -p:TargetFrameworks would also retarget Patina.Tests, and restoring every head with a
       desktop RID pulls Mono runtime packs for the mobile/web heads that may not match the installed workloads.
     -->
     <TargetFrameworks Condition="'$(PatinaTargetFrameworks)' != ''">$(PatinaTargetFrameworks)</TargetFrameworks>
@@ -49,9 +49,8 @@
     <WarningsAsErrors>$(WarningsAsErrors);Uno0001</WarningsAsErrors>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Patina.Core\Patina.Core.csproj" />
-  </ItemGroup>
+  <!-- Domain rules, queries and the store live in Core/ (namespace Patina.Core) inside this project, so Studio's
+       in-browser build sees one project. Patina.Tests compiles the same files directly. -->
 
   <!-- WebAssembly: persist ApplicationData.LocalFolder (the collection and photos) in IndexedDB.
        Bootstrapper 9+ no longer enables IDBFS by default; both lines are required. -->

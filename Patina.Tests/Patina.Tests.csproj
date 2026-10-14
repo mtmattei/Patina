@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Patina.Core\Patina.Core.csproj" />
+    <!-- The domain code lives inside the app project (Patina/Core) so Studio sees a single project.
+         The tests compile those files directly instead of referencing the Uno app. -->
+    <Compile Include="..\Patina\Core\**\*.cs" Link="Core\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

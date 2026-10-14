@@ -15,7 +15,7 @@ namespace Patina.Core.Storage;
 internal sealed partial class PatinaJsonContext : JsonSerializerContext;
 
 /// <summary>The export file format: the document plus a marker so a random JSON file is never imported by mistake.</summary>
-public sealed record ExportEnvelope(string Format, DateTimeOffset ExportedAt, PatinaDocument Document)
+public sealed partial record ExportEnvelope(string Format, DateTimeOffset ExportedAt, PatinaDocument Document)
 {
     public const string FormatName = "patina.collection";
 }

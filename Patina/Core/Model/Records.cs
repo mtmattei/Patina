@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 namespace Patina.Core.Model;
 
-public sealed record Artwork(
+public sealed partial record Artwork(
     string Id,
     string Accession,
     string Title,
@@ -17,12 +17,12 @@ public sealed record Artwork(
     string? CoverPhotoId = null);
 
 /// <summary>A photo file stored by the app under <c>photos/{Id}{Extension}</c>.</summary>
-public sealed record PhotoRef(string Id, string Extension, string OriginalName, DateTimeOffset AddedAt)
+public sealed partial record PhotoRef(string Id, string Extension, string OriginalName, DateTimeOffset AddedAt)
 {
     public string FileName => Id + Extension;
 }
 
-public sealed record Finding(
+public sealed partial record Finding(
     string Id,
     FindingType Type,
     string Zone,
@@ -30,7 +30,7 @@ public sealed record Finding(
     string Note,
     ImmutableList<string> PhotoIds);
 
-public sealed record Survey(
+public sealed partial record Survey(
     string Id,
     string ArtworkId,
     SurveyStatus Status,
@@ -46,9 +46,9 @@ public sealed record Survey(
 /// One line in a treatment's history. <see cref="LogKind.Note"/> carries free text written by the crew;
 /// the other kinds are recorded by the app and rendered in the reader's language.
 /// </summary>
-public sealed record TreatmentLogEntry(DateTimeOffset At, string Author, LogKind Kind, string Text = "", TreatmentStatus? Status = null);
+public sealed partial record TreatmentLogEntry(DateTimeOffset At, string Author, LogKind Kind, string Text = "", TreatmentStatus? Status = null);
 
-public sealed record Treatment(
+public sealed partial record Treatment(
     string Id,
     string ArtworkId,
     string? SurveyId,
@@ -63,7 +63,7 @@ public sealed record Treatment(
     DateOnly? CompletedOn);
 
 /// <summary>The whole record kept on the device. One JSON file; <see cref="Version"/> is the schema version.</summary>
-public sealed record PatinaDocument(
+public sealed partial record PatinaDocument(
     int Version,
     ImmutableList<Artwork> Artworks,
     ImmutableList<Survey> Surveys,

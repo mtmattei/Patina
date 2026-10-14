@@ -18,7 +18,7 @@ The sample collection is fictional: invented works and artists placed at real Mo
 | Treatment | Schedule, assign, log, step through to done (a completion note is required) |
 | Settings | Surveyor name, theme, reduced motion, language, export / import / restore sample data |
 
-Rules (in `Patina.Core`, all unit tested): the worst finding sets the grade (three moderate findings count as Poor);
+Rules (in `Patina/Core`, all unit tested): the worst finding sets the grade (three moderate findings count as Poor);
 survey intervals depend on material and shorten with condition; submitting proposes one treatment per serious or
 urgent finding.
 
@@ -27,8 +27,8 @@ urgent finding.
 | Path | Contents |
 |---|---|
 | `Patina/` | Uno Platform single project (MVUX, Navigation Extensions, Toolkit, Material) |
-| `Patina.Core/` | Domain records, rules, queries, JSON document store (plain `net10.0`) |
-| `Patina.Tests/` | NUnit tests for Core (69) |
+| `Patina/Core/` | Domain records, rules, queries, JSON document store (namespace `Patina.Core`, no UI dependencies). It lives inside the app project so Uno Platform Studio's in-browser build sees one project. |
+| `Patina.Tests/` | NUnit tests for Core (69); compiles `Patina/Core` source directly |
 | `docs/` | Spec inputs: `DESIGN.md` (theme source), `DECISIONS.md`, `ANALYSIS.md` and `assessment/` (tooling and project review), `KNOWN-ISSUES.md`, `DEPLOY.md` |
 | `SPEC.md` | The pre-implementation spec (briefs, route/page/data/design trees, gate) |
 | `tools/` | `make_resw.py` (EN/FR strings from one table), Win32 capture/drive scripts, Playwright WASM checks |
